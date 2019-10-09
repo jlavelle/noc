@@ -1,10 +1,24 @@
+import p5 from 'p5'
+import { sketch } from './intro/walker'
+
+let s;
+
 const main = () => {
-  console.log('test')
+  console.log('Running')
+  if (!s) { s = new p5(sketch) }
 }
 
 main()
 
 if (module.hot) {
-  module.hot.dispose(() => {})
-  module.hot.accept(main)
+  module.hot.dispose(() => {
+    if (s) {
+      s.remove()
+      s = null
+    }
+  })
+  module.hot.accept(() => {
+    console.log('Reloading')
+    main()
+  })
 }

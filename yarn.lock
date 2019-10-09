@@ -587,6 +587,14 @@
     "@babel/helper-regex" "^7.4.4"
     regexpu-core "^4.6.0"
 
+"@babel/polyfill@^7.0.0-beta.52":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.6.0.tgz#6d89203f8b6cd323e8d946e47774ea35dc0619cc"
+  integrity sha512-q5BZJI0n/B10VaQQvln1IlDK3BTBJFbADx7tv+oXDPIDZuTo37H5Adb9jhlXm/fEN4Y7/64qD9mnrJJG7rmaTw==
+  dependencies:
+    core-js "^2.6.5"
+    regenerator-runtime "^0.13.2"
+
 "@babel/preset-env@^7.4.4":
   version "7.6.3"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.6.3.tgz#9e1bf05a2e2d687036d24c40e4639dc46cef2271"
@@ -687,6 +695,37 @@
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.3.tgz#f060bf6eaafae4d56a7dac618980838b0696e2ab"
   integrity sha512-FmuxfCuolpLl0AnQ2NHSzoUKWEJDFl63qXjzdoWBVyFCXzMGm1spBzk7LeHNoVCiWCF7mRVms9e6jEV9+MoPbg==
+
+"@masaeedu/adt@^1.0.3", "@masaeedu/adt@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@masaeedu/adt/-/adt-1.1.1.tgz#137a33d37cabdfcffb50edbaea623692ca0a5d51"
+  integrity sha512-q/enxyrPiUyigV5F4H0Pw1MO/yVm1RK/X6ThTwBRxTpx5/hRpdBloCmG6q+snV1BUgB+OpwUAEcIGQCYVVJWZg==
+
+"@masaeedu/do@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@masaeedu/do/-/do-0.0.1.tgz#ce35ee8c728238e5db2b069a8e4501afe05e48f2"
+  integrity sha512-OLxerQzEieatYyg0s7L/GqRXVQZj67xgDx2AuadM4eyefUrkm8LQva8lI3G6WARuS/hs8ba3xaZpsq4V9OA+rQ==
+
+"@masaeedu/do@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@masaeedu/do/-/do-0.2.2.tgz#444b4640d2b5b94323e9335ae0f9e2051783ca4d"
+  integrity sha512-fYWsg9uhk5Y4gcx4OeO3sQHULJd6HnMkt52e4qE7qccszd35Yw6O7voRJu1JaddWjQQD7x6fVOorKS4aS60nYA==
+
+"@masaeedu/fp@^10.1.1":
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/@masaeedu/fp/-/fp-10.1.1.tgz#11a1860e10ce9d11ef620c7eda712ef6f27dbc3c"
+  integrity sha512-HOxq9WKNJks+G0MJOfpbo1A9EnXLeUxUyP3SV0Qmb+I6iyfXwluuXria/zu5RZQHXaTc580Cykj1TKcOFEkGew==
+  dependencies:
+    "@babel/polyfill" "^7.0.0-beta.52"
+    "@masaeedu/adt" "^1.0.3"
+    "@masaeedu/do" "^0.0.1"
+    "@masaeedu/infix" "^1.2.0"
+    natch "^1.1.1"
+
+"@masaeedu/infix@^1.2.0":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@masaeedu/infix/-/infix-1.2.1.tgz#423145ad6020355a87c9d7ce28dd8a8e93945621"
+  integrity sha512-98hBIX+sKgwG29yc1KnQ554jbsS7hkv+lKlWD95k1rbIfmftaI4oyACaSA4zykFRVvfycFCkQXGWDQjimJJIBA==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -3193,6 +3232,11 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+natch@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/natch/-/natch-1.1.1.tgz#ef20fd67fe2e3c4ff3c4e6634dacb43c0637ec33"
+  integrity sha1-7yD9Z/4uPE/zxOZjTay0PAY37DM=
+
 needle@^2.2.1:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/needle/-/needle-2.4.0.tgz#6833e74975c444642590e15a750288c5f939b57c"
@@ -3489,6 +3533,11 @@ osenv@^0.1.4:
   dependencies:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
+
+p5@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/p5/-/p5-0.9.0.tgz#a4431bf2a0ff6ede06e2c512faddb495c3332504"
+  integrity sha512-N8FzKr9SKofl4f+d9g6oYDRk5JOYgY1bIhCInzNxW7khc1zk7whQIOhaHeijSslfN3rJYfWso6Fn3O/w+TCwLg==
 
 pako@^0.2.5:
   version "0.2.9"
