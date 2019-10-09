@@ -1,21 +1,21 @@
-import { adt } from '@masaeedu/adt'
-import { toEnum } from '../util'
-
-const Step = adt({ Left: [], Right: [], Up: [], Down:[] })
-
-const stepWalker = ({ x, y }) => Step.match({
-  Left:  { x: x - 1, y },
-  Right: { x: x + 1, y },
-  Up:    { x, y: y + 1 },
-  Down:  { x, y: y - 1 }
-})
-
-const render = p => w => {
-  p.stroke(0);
-  p.point(w.x, w.y)
-}
+import { randomInt } from '../util'
 
 const sketch = p => {
+  
+  const randomStep = () => {
+    const dx = randomInt(3) - 1
+    const dy = randomInt(3) - 1
+    return { dx, dy }
+  }
+
+  const stepWalker = ({ x, y }) => ({ dx, dy }) => ({ x: x + dx, y: y + dy })
+
+  const render = w => {
+    p.stroke(0);
+    p.point(w.x, w.y)
+  }
+  
+  
   const w = 800
   const h = 400
 
@@ -23,15 +23,12 @@ const sketch = p => {
   
   p.setup = () => {
     p.createCanvas(w, h)
-    const step = toEnum(Math.floor(p.random(4)))(Step)
-    console.log(step)
-    console.log(stepWalker(walker)(step))
+    console.log(stepWalker(walker)(randomStep()))
   }
 
   p.draw = () => {
-    render(p)(walker)
-    const step = toEnum(Math.floor(p.random(4)))(Step)
-    walker = stepWalker(walker)(step)
+    render(walker)
+    walker = stepWalker(walker)(randomStep())
   }
 }
 
