@@ -1,5 +1,6 @@
 import p5 from 'p5'
-import { sketch } from './intro/walker'
+// import { sketch } from './intro/walker'
+import { sketch } from './intro/distribution'
 
 let s;
 

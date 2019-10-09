@@ -15,7 +15,6 @@ const sketch = p => {
     p.point(w.x, w.y)
   }
   
-  
   const w = 800
   const h = 400
 
