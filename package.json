@@ -1,0 +1,15 @@
+{
+  "name": "noc",
+  "version": "1.0.0",
+  "description": "Nature of Code in p5.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel index.html"
+  },
+  "author": "John C. Lavelle",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel": "^1.12.4"
+  }
+}
