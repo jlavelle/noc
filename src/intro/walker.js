@@ -1,5 +1,5 @@
 import { Arr, Obj, Fn } from '@masaeedu/fp'
-import { randomInt, weightedChoice, randomGaussian } from '../util'
+import { randomInt, weightedChoice, randomGaussian, montecarlo, randomR } from '../util'
 
 const sketch = p => {
   const randomStep = () => {
@@ -77,6 +77,13 @@ const sketch = p => {
     return { dx: dx * sx, dy: dy * sy }
   }
 
+  const customScale = f => ({ dx, dy }) => {
+    const ss = montecarlo(f) * 30
+    const sx = randomR(-ss)(ss)
+    const sy = randomR(-ss)(ss)
+    return { dx: dx * sx, dy: dy * sy }
+  }
+
   const gaussianOpts = {
     sx: [5, 5],
     sy: [5, 5]
@@ -102,7 +109,7 @@ const sketch = p => {
 
   p.draw = () => {
     const prev = walker
-    const next = stepWalker(prev)(gaussianScale(gaussianOpts)(standard()))
+    const next = stepWalker(prev)(customScale(x => x)(anyStep()))
     render(prev)(next)
     walker = next
   }

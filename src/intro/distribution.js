@@ -18,7 +18,7 @@ export const sketch = p => {
   p.draw = () => {
     p.background(255)
     
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 100; i++) {
       const x = Math.floor(montecarlo(x => x) * randomCounts.length)
       randomCounts[x]++
     }

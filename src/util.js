@@ -2,6 +2,8 @@ import { Arr, IntSum, Fn } from '@masaeedu/fp'
 
 const randomInt = i => Math.floor(Math.random() * i)
 
+const randomR = a => b => Math.random() * (b - a) + a
+
 // weights :: Foldable f -> f Int -> f Int
 const weights = F => xs => {
   const s = F.fold(IntSum)(xs)
@@ -86,6 +88,9 @@ const montecarlo = f => {
   while (true) {
     let r1 = Math.random()
     let p = f(r1)
+    if (p <= 0) {
+      throw Error("montecarlo: Negative probability")
+    }
     let r2 = Math.random()
     if (r2 < p) {
       return r1
@@ -95,6 +100,7 @@ const montecarlo = f => {
 
 export {
   randomInt,
+  randomR,
   weights,
   cumulative,
   distribution,
