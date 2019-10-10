@@ -1,5 +1,5 @@
 import test from 'ava'
-import { prob, unzip } from './util'
+import { weightedChoice, unzip, stdDev, mean, roundToPrecision } from './util'
 
 test("unzip", t => {
   const [xs, ys] = unzip([
@@ -10,7 +10,7 @@ test("unzip", t => {
   t.deepEqual([1,2,3,4,5,6], [...xs, ...ys])
 })
 
-test("prob", t => {
+test("weightedChoice", t => {
   const x = [
     [1, 'a'],
     [1, 'b'],
@@ -26,6 +26,15 @@ test("prob", t => {
     [1   , 'c']
   ]
   expect.forEach(([p, v]) => {
-    t.is(String(p) + v, String(p) + prob(x)(p))
+    t.is(String(p) + v, String(p) + weightedChoice(x)(p))
   })
+})
+
+// Example taken from the Introduction to the book
+test("stdDev", t => {
+  const scores = [
+    85, 82, 88, 86, 85, 93, 98, 40, 73, 83
+  ]
+  t.is(81.3, mean(scores))
+  t.is(15.13, roundToPrecision(stdDev(scores))(0.01))
 })

@@ -1,8 +1,5 @@
 import { Arr, IntSum, Fn } from '@masaeedu/fp'
 
-// toEnum :: Int -> AdtDef a -> a
-const toEnum = i => d => d[Object.keys(d.def)[i]]
-
 const randomInt = i => Math.floor(Math.random() * i)
 
 // weights :: Foldable f -> f Int -> f Int
@@ -32,9 +29,9 @@ const unzip = Arr.foldr(([a, b]) => ([as, bs]) => {
 
 // Create a distribution based on a list of weights tupled with outcomes,
 // and select an outcome by passing in a number 0 <= p <= 1
-// e.g. prob([[1, "a"], [1, "b"], [2, "c"]])(0.7) == "c"
+// e.g. weightedChoice([[1, "a"], [1, "b"], [2, "c"]])(0.7) == "c"
 // :: NonEmpty (Int, a) -> Float -> a
-const prob = xs => p => {
+const weightedChoice = xs => p => {
   const [is, vs] = unzip(xs)
   const ws = distribution(is)
   const ww = Arr.zipWith(a => b => [a, b])(ws)(vs)
@@ -43,14 +40,34 @@ const prob = xs => p => {
   return Arr.foldr(go)(vs[vs.length - 1])(ww)
 }
 
-// want to take a list of weights and 
+// :: NonEmpty Number -> Number
+const mean = xs => {
+  const s = Arr.fold(IntSum)(xs)
+  return s / xs.length
+}
 
-export { 
-  toEnum,
+const stdDev = xs => 
+  Fn.passthru(xs)([
+    mean,
+    m => Arr.map(x => Math.pow(x - m, 2))(xs),
+    mean,
+    Math.sqrt
+  ])
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
+const roundToPrecision = n => p => {
+  let y = +n + (p === undefined ? 0.5 : p / 2)
+  return y - (y % (p === undefined ? 1 : +p))
+}
+
+export {
   randomInt,
   weights,
   cumulative,
   distribution,
   unzip,
-  prob
+  weightedChoice,
+  mean,
+  stdDev,
+  roundToPrecision
 }
