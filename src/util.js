@@ -61,11 +61,12 @@ const roundToPrecision = n => p => {
 }
 
 // https://en.wikipedia.org/wiki/Marsaglia_polar_method
-let spare = null;
+let spare = null
 const randomGaussian = () => {
   if (spare) {
+    let x = spare
     spare = null
-    return spare
+    return x
   } else {
     let u, v, s
     do {
@@ -73,8 +74,9 @@ const randomGaussian = () => {
       v = Math.random() * 2 - 1
       s = u * u + v * v
     } while (s >= 1 || s == 0)
-    spare = v * s
-    return u * s
+    let r = Math.sqrt(-2 * Math.log(s) / s)
+    spare = v * r
+    return u * r
   }
 }
 
