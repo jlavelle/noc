@@ -1,19 +1,23 @@
-import { randomInt, randomGaussianInt } from "../util"
+import { randomInt, randomGaussian } from "../util"
 
 export const sketch = p => {
-  let randomCounts = Array(100).fill(0)
+  let randomCounts = Array(1000).fill(0)
   
   p.setup = () => {
-    p.createCanvas(1000, 240)
+    p.createCanvas(1000, 500)
   }
 
   p.draw = () => {
     p.background(255)
     
-    for (let i = 0; i < 10; i++) {
-      let idx = randomInt(randomCounts.length)
-      //let idx = (randomGaussianInt(randomCounts.length) + randomCounts.length) / 2
-      randomCounts[idx]++
+    for (let i = 0; i < 40; i++) {
+      //let idx = randomInt(randomCounts.length)
+      const n = randomGaussian()
+      const sd = 100
+      const m = 500
+      const x = Math.floor(sd * n + m)
+      //console.log(x)
+      randomCounts[x]++
     }
 
     p.stroke(0)

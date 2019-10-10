@@ -28,10 +28,10 @@ const sketch = p => {
   })()
 
   const standardMoves = [
-    [1, moves.s ],
-    [1, moves.e ],
-    [1, moves.n ],
-    [1, moves.w ]
+    [1, moves.s],
+    [1, moves.e],
+    [1, moves.n],
+    [1, moves.w]
   ]
 
   const replaceWeights = ms => ws =>

@@ -10,7 +10,7 @@ export const sketch = p => {
   }
 
   p.draw = () => {
-    const n = p.randomGaussian()
+    const n = randomGaussian()
     const sd = 60
     const m = 320
     const x = sd * n + m
