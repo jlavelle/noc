@@ -6,7 +6,6 @@ export const sketch = p => {
   
   p.setup = () => {
     p.createCanvas(w, h)
-    console.log(p.randomGaussian())
   }
 
   p.draw = () => {
