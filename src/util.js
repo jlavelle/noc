@@ -45,7 +45,7 @@ const weightedChoice = xs => p => {
 // :: NonEmpty Number -> Number
 const mean = xs => {
   const s = Arr.fold(IntSum)(xs)
-  return s / xs.length
+  return s / (xs.length > 0 ? xs.length : 1)
 }
 
 const stdDev = xs => 
@@ -98,6 +98,13 @@ const montecarlo = f => {
   }
 }
 
+// Does the same thing as p5's map function
+const mapInterval = n => ([cmin, cmax]) => ([nmin, nmax]) => {
+  const cpos = (n - cmin) / (cmax - cmin)
+  const npos = cpos * (nmax - nmin) + nmin
+  return npos
+}
+
 export {
   randomInt,
   randomR,
@@ -111,5 +118,6 @@ export {
   roundToPrecision,
   randomGaussian,
   randomGaussianInt,
-  montecarlo
+  montecarlo,
+  mapInterval
 }

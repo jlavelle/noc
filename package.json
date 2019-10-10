@@ -27,7 +27,7 @@
       "src/**/*.test.js"
     ],
     "require": [
-      "@babel/register"
+      "./_register.js"
     ]
   }
 }

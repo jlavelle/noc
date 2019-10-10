@@ -77,6 +77,7 @@ const sketch = p => {
     return { dx: dx * sx, dy: dy * sy }
   }
 
+  // Exercise I.6
   const customScale = f => ({ dx, dy }) => {
     const ss = montecarlo(f) * 30
     const sx = randomR(-ss)(ss)
