@@ -60,6 +60,26 @@ const roundToPrecision = n => p => {
   return y - (y % (p === undefined ? 1 : +p))
 }
 
+// https://en.wikipedia.org/wiki/Marsaglia_polar_method
+let spare = null;
+const randomGaussian = () => {
+  if (spare) {
+    spare = null
+    return spare
+  } else {
+    let u, v, s
+    do {
+      u = Math.random() * 2 - 1
+      v = Math.random() * 2 - 1
+      s = u * u + v * v
+    } while (s >= 1 || s == 0)
+    spare = v * s
+    return u * s
+  }
+}
+
+const randomGaussianInt = i => Math.floor(randomGaussian() * i)
+
 export {
   randomInt,
   weights,
@@ -69,5 +89,7 @@ export {
   weightedChoice,
   mean,
   stdDev,
-  roundToPrecision
+  roundToPrecision,
+  randomGaussian,
+  randomGaussianInt
 }

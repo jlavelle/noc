@@ -1,4 +1,4 @@
-import { randomInt } from "../util"
+import { randomInt, randomGaussianInt } from "../util"
 
 export const sketch = p => {
   let randomCounts = Array(100).fill(0)
@@ -12,6 +12,7 @@ export const sketch = p => {
     
     for (let i = 0; i < 10; i++) {
       let idx = randomInt(randomCounts.length)
+      //let idx = (randomGaussianInt(randomCounts.length) + randomCounts.length) / 2
       randomCounts[idx]++
     }
 
