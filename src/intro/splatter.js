@@ -1,16 +1,7 @@
 import { Obj } from '@masaeedu/fp'
-import { randomGaussian } from '../util'
+import { randomGaussian, randomColor, randomCoord } from '../util'
 
 // Exercise I.4
-
-const randomCoord = ({getRandom, sdx, sdy, mx, my}) => {
-  const x = getRandom() * sdx + mx 
-  const y = getRandom() * sdx + my
-  return { x, y }
-}
-
-const randomColor = 
-  Obj.map(([sd, m]) => (randomGaussian() * sd + m) % 255)
 
 export const sketch = p => {
   const w = window.innerWidth - 20

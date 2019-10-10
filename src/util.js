@@ -1,4 +1,4 @@
-import { Arr, IntSum, Fn } from '@masaeedu/fp'
+import { Arr, IntSum, Fn, Obj } from '@masaeedu/fp'
 
 const randomInt = i => Math.floor(Math.random() * i)
 
@@ -105,6 +105,15 @@ const mapInterval = ([cmin, cmax]) => ([nmin, nmax]) => n => {
   return npos
 }
 
+const randomCoord = ({getRandom, sdx, sdy, mx, my}) => {
+  const x = getRandom() * sdx + mx 
+  const y = getRandom() * sdx + my
+  return { x, y }
+}
+
+const randomColor = 
+  Obj.map(([sd, m]) => (randomGaussian() * sd + m) % 255)
+
 export {
   randomInt,
   randomR,
@@ -119,5 +128,7 @@ export {
   randomGaussian,
   randomGaussianInt,
   montecarlo,
-  mapInterval
+  mapInterval,
+  randomCoord,
+  randomColor
 }
