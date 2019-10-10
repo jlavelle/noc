@@ -1,5 +1,5 @@
 import { Arr, Obj, Fn } from '@masaeedu/fp'
-import { randomInt, prob } from '../util'
+import { randomInt, weightedChoice } from '../util'
 
 const sketch = p => {
   const randomStep = () => {
@@ -26,13 +26,32 @@ const sketch = p => {
       Obj.fromPairs
     ])
   })()
+
+  const standardMoves = [
+    [1, moves.s ],
+    [1, moves.e ],
+    [1, moves.n ],
+    [1, moves.w ]
+  ]
+
+  const replaceWeights = ms => ws =>
+    Arr.zipWith(([_, m]) => w => [w, m])(ms)(ws)
   
-  const downRightStep = () => prob([
-    [10, moves.s ],
-    [10, moves.e ],
-    [8 , moves.n ],
-    [8 , moves.w ]
-  ])(Math.random())
+  // Exercise I.1
+  const downRightStep = () => weightedChoice(
+    replaceWeights(standardMoves)([10, 10, 8, 8])
+  )(Math.random())
+
+  // Exercise I.3
+  const mouseBias = walker => {
+    const dx = Math.sign(p.mouseX - walker.x)
+    const dy = Math.sign(p.mouseY - walker.y)
+    
+    return weightedChoice([
+      [4, { dx, dy }],
+      ...standardMoves
+    ])(Math.random())
+  }
 
   const stepWalker = ({ x, y }) => ({ dx, dy }) => ({ x: x + dx, y: y + dy })
 
@@ -52,7 +71,7 @@ const sketch = p => {
 
   p.draw = () => {
     render(walker)
-    walker = stepWalker(walker)(downRightStep())
+    walker = stepWalker(walker)(mouseBias(walker))
   }
 }
 
