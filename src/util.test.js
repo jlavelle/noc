@@ -40,8 +40,8 @@ test("stdDev", t => {
 })
 
 test("mapInterval", t => {
-  t.is(2.5, mapInterval(0.25)([0, 1])([0, 10]))
-  t.is(75, mapInterval(25)([0, 50])([50, 100]))
-  t.is(-5, mapInterval(5)([0, 10])([-10, 0]))
-  t.is(95, mapInterval(15)([10,20])([90,100]))
+  t.is(2.5, mapInterval([0, 1])([0, 10])(0.25))
+  t.is(75, mapInterval([0, 50])([50, 100])(25))
+  t.is(-5, mapInterval([0, 10])([-10, 0])(5))
+  t.is(95, mapInterval([10,20])([90,100])(15))
 })

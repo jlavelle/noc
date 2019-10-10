@@ -99,7 +99,7 @@ const montecarlo = f => {
 }
 
 // Does the same thing as p5's map function
-const mapInterval = n => ([cmin, cmax]) => ([nmin, nmax]) => {
+const mapInterval = ([cmin, cmax]) => ([nmin, nmax]) => n => {
   const cpos = (n - cmin) / (cmax - cmin)
   const npos = cpos * (nmax - nmin) + nmin
   return npos

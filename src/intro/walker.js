@@ -1,5 +1,12 @@
 import { Arr, Obj, Fn } from '@masaeedu/fp'
-import { randomInt, weightedChoice, randomGaussian, montecarlo, randomR } from '../util'
+import { 
+  randomInt,
+  weightedChoice,
+  randomGaussian,
+  montecarlo,
+  randomR,
+  mapInterval
+} from '../util'
 
 const sketch = p => {
   const randomStep = () => {
@@ -68,21 +75,45 @@ const sketch = p => {
     ])(Math.random())
   }
 
+  const perlinStep = ({walker, width, height, t}) => {
+    const f = mapInterval([0,1])
+    return {
+      dx: f([0,w])(p.noise(t)) - walker.x,
+      dy: f([0,h])(p.noise(t + 10000)) - walker.y
+    }
+  }
+
+  const scaleStep = ({ dx, dy }) => ({ sx, sy }) => {
+    return { dx: dx * sx, dy: dy * sy }
+  }
+
   // Exercise I.5
   // :: { sx :: (StdDev, Mean), sy :: (StdDev, Mean) } 
   // -> { dx :: Int, dy :: Int } 
   // -> { dx :: Int, dy :: Int }
-  const gaussianScale = opts => ({ dx, dy }) => {
-    const { sx, sy } = Obj.map(([sd, m]) => randomGaussian() * sd + m)(opts)
-    return { dx: dx * sx, dy: dy * sy }
+  const gaussianScale = opts => step => {
+    const scale = Obj.map(([sd, m]) => randomGaussian() * sd + m)(opts)
+    return scaleStep(step)(scale)
   }
 
   // Exercise I.6
-  const customScale = f => ({ dx, dy }) => {
+  const customScale = f => step => {
     const ss = montecarlo(f) * 30
-    const sx = randomR(-ss)(ss)
-    const sy = randomR(-ss)(ss)
-    return { dx: dx * sx, dy: dy * sy }
+    const scale = {
+      sx: randomR(-ss)(ss),
+      sy: randomR(-ss)(ss)
+    }
+    return scaleStep(step)(scale)
+  }
+
+  // Exercise I.7
+  const perlinScale = t => step => {
+    const f = mapInterval([0, 1])([0, 10])
+    const scale = {
+      sx: f(p.noise(t)),
+      sy: f(p.noise(t + 10000))
+    }
+    return scaleStep(step)(scale)
   }
 
   const gaussianOpts = {
@@ -94,8 +125,6 @@ const sketch = p => {
 
   const render = prev => curr => {
     p.stroke(0)
-    p.point(prev.x, prev.y)
-    p.point(curr.x, curr.y)
     p.line(prev.x, prev.y, curr.x, curr.y)
   }
   
@@ -103,16 +132,23 @@ const sketch = p => {
   const h = window.innerHeight - 20
 
   let walker = { x: w / 2, y: h / 2 }
-  
+  let t = 0
+
   p.setup = () => {
     p.createCanvas(w, h)
   }
 
   p.draw = () => {
     const prev = walker
-    const next = stepWalker(prev)(customScale(x => x)(anyStep()))
+    const next = stepWalker(prev)(perlinStep({
+      walker: prev,
+      width: w,
+      height: h,
+      t
+    }))
     render(prev)(next)
     walker = next
+    t += 0.003
   }
 }
 
