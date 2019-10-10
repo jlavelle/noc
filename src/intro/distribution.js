@@ -1,31 +1,35 @@
-import { randomGaussian } from "../util"
+import { randomGaussian, montecarlo } from "../util"
+
+const gaussianDist = sd => m => {
+  const n = randomGaussian()
+  return Math.floor(sd * n + m)
+}
 
 export const sketch = p => {
   let randomCounts = Array(1000).fill(0)
   
+  const w = window.innerWidth - 20
+  const h = window.innerHeight - 20
+
   p.setup = () => {
-    p.createCanvas(1000, 500)
+    p.createCanvas(w, h)
   }
 
   p.draw = () => {
     p.background(255)
     
-    for (let i = 0; i < 40; i++) {
-      const n = randomGaussian()
-      const sd = 100
-      const m = 500
-      const x = Math.floor(sd * n + m)
-      //console.log(x)
+    for (let i = 0; i < 1000; i++) {
+      const x = Math.floor(montecarlo(x => x) * randomCounts.length)
       randomCounts[x]++
     }
 
     p.stroke(0)
     p.fill(175)
 
-    const w = p.width / randomCounts.length
+    const cw = w / randomCounts.length
 
     randomCounts.forEach((x, i) => {
-      p.rect(i * w, p.height - x, w - 1, x)
+      p.rect(i * cw, h - x, cw - 1, x)
     })
   }
 }

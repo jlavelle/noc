@@ -82,6 +82,17 @@ const randomGaussian = () => {
 
 const randomGaussianInt = i => Math.floor(randomGaussian() * i)
 
+const montecarlo = f => {
+  while (true) {
+    let r1 = Math.random()
+    let p = f(r1)
+    let r2 = Math.random()
+    if (r2 < p) {
+      return r1
+    }
+  }
+}
+
 export {
   randomInt,
   weights,
@@ -93,5 +104,6 @@ export {
   stdDev,
   roundToPrecision,
   randomGaussian,
-  randomGaussianInt
+  randomGaussianInt,
+  montecarlo
 }
