@@ -1,10 +1,10 @@
 import p5 from 'p5'
-//import { sketch } from './intro/walker'
+import { sketch } from './intro/walker'
 //import { sketch } from './intro/distribution'
 //import { sketch } from './intro/gaussian'
 // import { sketch } from './intro/splatter'
 //import { sketch } from './intro/perlin'
-import { sketch } from './intro/landscape'
+//import { sketch } from './intro/landscape'
 
 let s;
 

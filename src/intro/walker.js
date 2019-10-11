@@ -7,12 +7,15 @@ import {
   randomR,
   mapInterval
 } from '../util'
+import * as Vec from '../vector'
+
+const { Vec2 } = Vec
 
 const sketch = p => {
   const randomStep = () => {
     const dx = randomInt(3) - 1
     const dy = randomInt(3) - 1
-    return { dx, dy }
+    return Vec2(dx)(dy)
   }
   
   const moves = (() => {
@@ -23,7 +26,7 @@ const sketch = p => {
       ['w', -1,  0]
     ]
     
-    const toPairs = ([n, dx, dy]) => [n, {dx, dy}]
+    const toPairs = ([n, dx, dy]) => [n, Vec2(dx)(dy)]
     const addc = x => y => Arr.map(i => x[i] + y[i])(Arr.range(3))
     
     return Fn.passthru(cardinal)([
@@ -68,7 +71,7 @@ const sketch = p => {
     const dy = Math.sign(p.mouseY - walker.y)
     
     return weightedChoice([
-      [9, { dx, dy }],
+      [9, Vec2(dx)(dy)],
       ...standardMoves,
       ...diagonalMoves,
       ...noMove
@@ -77,14 +80,13 @@ const sketch = p => {
 
   const perlinStep = ({walker, width, height, t}) => {
     const f = mapInterval([0,1])
-    return {
-      dx: f([0,w])(p.noise(t)) - walker.x,
-      dy: f([0,h])(p.noise(t + 10000)) - walker.y
-    }
+    return Vec2
+      (f([0,w])(p.noise(t)) - walker.x)
+      (f([0,h])(p.noise(t + 10000)) - walker.y)
   }
 
-  const scaleStep = ({ dx, dy }) => ({ sx, sy }) => {
-    return { dx: dx * sx, dy: dy * sy }
+  const scaleStep = ({ x, y }) => ({ sx, sy }) => {
+    return { x: x * sx, y: y * sy }
   }
 
   // Exercise I.5
@@ -121,7 +123,7 @@ const sketch = p => {
     sy: [5, 5]
   }
 
-  const stepWalker = ({ x, y }) => ({ dx, dy }) => ({ x: x + dx, y: y + dy })
+  const stepWalker = Vec.add
 
   const render = prev => curr => {
     p.stroke(0)
@@ -131,7 +133,7 @@ const sketch = p => {
   const w = window.innerWidth - 20
   const h = window.innerHeight - 20
 
-  let walker = { x: w / 2, y: h / 2 }
+  let walker = Vec2(w / 2)(h / 2)
   let t = 0
 
   p.setup = () => {
