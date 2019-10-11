@@ -1,3 +1,4 @@
+import { Fn, Obj } from '@masaeedu/fp'
 import * as Vec from '../vector'
 
 const { Vec3 } = Vec
@@ -5,7 +6,6 @@ const { Vec3 } = Vec
 export const sketch = p => {
   const w = 600
   const h = 400
-  const d = 200
 
   p.setup = () => {
     p.createCanvas(w, h, p.WEBGL)
@@ -24,18 +24,18 @@ export const sketch = p => {
     p.pop()
   }
 
-  const step = b => v => {
-    const { x, y, z } = b.position
-    const r = b.radius
-    const collideX = x + (r / 2) >= 100 || x - (r / 2) <= -100
-    const collideY = y + (r / 2) >= 100 || y - (r / 2) <= -100
-    const collideZ = z + (r / 2) >= 100 || z - (r / 2) <= -100
-    
-    const nx = collideX ? v.x * -1 : v.x
-    const ny = collideY ? v.y * -1 : v.y
-    const nz = collideZ ? v.z * -1 : v.z
+  const collides = c => vc => r => b => {
+    const cond = c + (r / 2) >= b || c - (r / 2) <= -b
+    return cond ? vc * -1 : vc
+  }
 
-    const nv = Vec3(nx)(ny)(nz)
+  const step = b => v => {
+    const r = b.radius
+    
+    const nv = Fn.passthru(v)([
+      Obj.zipWith(a => b => [a, b])(b.position),
+      Obj.map(([c, vc]) => collides(c)(vc)(r)(100))
+    ])
     
     return [Ball(Vec.add(b.position)(nv))(b.radius), nv]
   }
