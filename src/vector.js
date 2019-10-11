@@ -13,6 +13,11 @@ const dot = v1 => v2 => Obj.fold(IntSum)(Obj.zipWith(a => b => a * b)(v1)(v2))
 
 const magnitude = v => Math.sqrt(Obj.foldMap(IntSum)(x => x * x)(v))
 
+const limit = to => v => {
+  const mag = magnitude(v)
+  return mag > to ? scale(Math.sqrt((to * to) / (mag * mag)))(v) : v
+}
+
 const normalize = v => {
   const m = magnitude(v)
   return scale(1 / (m === 0 ? 1 : m))(v)
@@ -26,5 +31,6 @@ export {
   scale,
   dot,
   magnitude,
-  normalize
+  normalize,
+  limit
 }

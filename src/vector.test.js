@@ -1,5 +1,15 @@
 import test from 'ava'
-import { Vec2, Vec3, add, subtract, scale, dot, magnitude, normalize } from './vector'
+import {
+  Vec2,
+  Vec3,
+  add,
+  subtract,
+  scale,
+  dot,
+  magnitude,
+  normalize,
+  limit
+} from './vector'
 
 const a = Vec2(2)(2)
 const b = Vec2(1)(2)
@@ -46,4 +56,9 @@ test("normalize", t => {
   t.is(1, Math.round(magnitude(normalize(b2))))
   t.is(0, magnitude(normalize(Vec3(0)(0)(0))))
   t.is(1, Math.round(magnitude(normalize(Vec3(-19)(30)(-3)))))
+})
+
+test("limit", t => {
+  t.is(10, Math.round(magnitude(limit(10)(Vec3(100)(100)(100)))))
+  t.is(1, Math.round(magnitude(limit(1)(Vec2(4)(5)))))
 })
