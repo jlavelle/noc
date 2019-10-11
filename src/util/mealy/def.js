@@ -11,7 +11,7 @@ const Mealy = (() => {
   }
 
   // Applicative
-  const of = x => a => [a, of(x)]
+  const of = x => _ => [x, of(x)]
 
   const ap = mealyf => mealya => a => {
     const [f, next1] = mealyf(a)

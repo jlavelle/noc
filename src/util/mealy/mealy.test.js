@@ -17,6 +17,8 @@ test("Functor", t => {
 
 test("Applicative", t => {
   t.deepEqual([0,2,4], take(3)(Mealy.ap(adder)(counter)))
+  t.deepEqual([1,1,1], take(3)(Mealy.of(1)))
+  t.deepEqual([0,2,4], take(3)(Mealy.lift2(a => b => a + b)(counter)(counter)))
 })
 
 test("Profunctor", t => {
@@ -31,4 +33,8 @@ test("Profunctor", t => {
   const expect = [[4, 4], [2, 6], [4, 10]]
   t.deepEqual(expect, Mealy.scan(Arr)(lengther)(inputs))
   t.deepEqual(expect, Mealy.scan(Arr)(lengtherdm)(inputs))
+})
+
+test("unfold+scan", t => {
+  t.deepEqual(Arr.range(1000), take(1000)(counter))
 })
