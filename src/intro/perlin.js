@@ -1,4 +1,4 @@
-import { mapInterval, randomGaussian, randomColor } from '../util'
+import { mapInterval, randomGaussian, randomColor } from '../util/misc'
 
 export const sketch = p => {
   

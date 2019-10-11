@@ -1,4 +1,4 @@
-import { randomGaussian } from '../util'
+import { randomGaussian } from '../util/misc'
 
 export const sketch = p => {
   const w = 640

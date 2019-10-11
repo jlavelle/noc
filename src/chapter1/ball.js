@@ -1,5 +1,5 @@
 import { Fn, Obj } from '@masaeedu/fp'
-import * as Vec from '../vector'
+import * as Vec from '../util/vector'
 
 const { Vec3 } = Vec
 

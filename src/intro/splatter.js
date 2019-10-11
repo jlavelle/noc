@@ -1,6 +1,6 @@
 import { Obj } from '@masaeedu/fp'
-import { randomGaussian, configureGaussian } from '../util'
-import { add } from '../vector'
+import { randomGaussian, configureGaussian } from '../util/misc'
+import { add } from '../util/vector'
 
 // Exercise I.4
 

@@ -6,8 +6,8 @@ import {
   montecarlo,
   randomR,
   mapInterval
-} from '../util'
-import * as Vec from '../vector'
+} from '../util/misc'
+import * as Vec from '../util/vector'
 
 const { Vec2 } = Vec
 

@@ -1,4 +1,4 @@
-import { mapInterval, randomR } from "../util"
+import { mapInterval, randomR } from "../util/misc"
 
 // Exercise I.10
 // TODO: clean this up

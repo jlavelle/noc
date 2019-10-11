@@ -1,5 +1,5 @@
 import test from 'ava'
-import { weightedChoice, unzip, stdDev, mean, roundToPrecision, mapInterval } from './util'
+import { weightedChoice, unzip, stdDev, mean, roundToPrecision, mapInterval } from './misc'
 
 test("unzip", t => {
   const [xs, ys] = unzip([

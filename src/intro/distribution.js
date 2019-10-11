@@ -1,4 +1,4 @@
-import { randomGaussian, montecarlo } from "../util"
+import { randomGaussian, montecarlo } from "../util/misc"
 
 const gaussianDist = sd => m => {
   const n = randomGaussian()
