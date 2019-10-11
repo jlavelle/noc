@@ -31,12 +31,7 @@ export const sketch = p => {
 
   const step = b => v => {
     const r = b.radius
-    
-    const nv = Fn.passthru(v)([
-      Obj.zipWith(a => b => [a, b])(b.position),
-      Obj.map(([c, vc]) => collides(c)(vc)(r)(100))
-    ])
-    
+    const nv = Obj.zipWith(a => b => collides(a)(b)(r)(100))(b.position)(v)
     return [Ball(Vec.add(b.position)(nv))(b.radius), nv]
   }
   
