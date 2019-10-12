@@ -1,14 +1,14 @@
-import { Obj, Fn, Arr } from '@masaeedu/fp'
+import { Obj, Fn, Arr, Maybe } from '@masaeedu/fp'
 import * as Vec from '../util/vector'
 import Mealy from '../util/mealy'
-import { pipeC } from '../util/misc'
+import { pipeC, splitN } from '../util/misc'
 
 const { Vec2 } = Vec
 
 const positionUpdate = f => ({ pos, vel, acc }) => {
   const nv = Vec.add(vel)(acc)
   const np = Vec.add(pos)(nv)
-  return f({pos: np, vel: nv})
+  return { acc, ...f({pos: np, vel: nv}) }
 }
 
 const wrapDim = max => val => val > max ? 0 : val < 0 ? max : val
@@ -17,16 +17,22 @@ const wrapVec = Obj.zipWith(wrapDim)
 const wrappingBehavior = prop => ({ w, h }) => Obj.over(prop)(wrapVec(Vec2(w)(h)))
 const limitingBehavior = prop => ({ s }) => Obj.over(prop)(Vec.limit(s))
 
-const accelerator = Mealy.unfold(as => s => {
+const accelerator = Mealy.unfold(mas => s => {
   const behavior = Fn.pipe([
     wrappingBehavior('pos')(s),
     limitingBehavior('vel')(s)
   ])
-  const acc = Vec.limit(s.a)(Vec.subtract(s.mouse)(as.pos))
-  const nas = positionUpdate(behavior)({...as, acc})
-  const ns = Arr.fold(Obj)([nas, {acc}, s])
-  return [ ns, nas ]
-})
+  const updater = positionUpdate(behavior)
+  const nas = Maybe.match({
+    Just: as => {
+      const acc = Vec.limit(s.a)(Vec.subtract(s.mouse)(as.pos))
+      return updater({...as, acc})
+    },
+    Nothing: updater({...s, acc: Vec2(0)(0)})
+  })(mas)
+  const ns = Arr.fold(Obj)([s, nas])
+  return [ ns, Maybe.Just(nas) ]
+})(Maybe.Nothing)
 
 const withInput = x => Mealy.map(s => Obj.append(s)(x))(Mealy.id)
 
@@ -48,11 +54,9 @@ const velRender = Mealy.map(s => {
   return s
 })(Mealy.id)
 
-const mouseMover = cfg => init => pipeC(Mealy)([
+const mouseMover = pipeC(Mealy)([
   mouseVec,
-  withInput(cfg),
-  accelerator(init),
-  withInput({ rad: 10 }),
+  accelerator,
   ellipseRender,
   velRender
 ])
@@ -73,17 +77,35 @@ export const sketch = p => {
   p.setup = () => {
     p.createCanvas(w, h)
   }
+
+  const n = 10
+
+  const randomConfig = () => ({
+    p5: p,
+    w, h, 
+    s: Math.random() * 10,
+    a: Math.random() / 10 + 1,
+    rad: Math.random() * 30 + 5,
+    pos: Vec2(Math.random() * w)(Math.random() * w),
+    vel: Vec2(Math.random())(Math.random())
+  })
+
+  const configs = Array(n).fill(0).map(x => randomConfig())
   
-  let lastp = Vec2(w - 1)(h - 1)
-  
-  const mv = driveMealy(mouseMover({w, h, s: 5, a: 0.1})({
-    pos: Vec2(w - 1)(h - 1),
+  const config = {
+    w, h,
+    s: 5,
+    a: 1,
+    rad: 10,
+    pos: Vec2(w / 2)(h / 2),
     vel: Vec2(0)(0)
-  }))
+  }
+
+  const mv = driveMealy(splitN(Mealy)(Array(n).fill(mouseMover)))
 
   p.draw = () => {
     p.background(0)
     p.fill(255)
-    mv({ p5: p })
+    mv(configs)
   }
 }
