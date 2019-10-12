@@ -17,7 +17,7 @@ const setMagnitude = to => v => scale(to / magnitude(v))(v)
 
 const limit = to => v => {
   const mag = magnitude(v)
-  return mag > to ? scale(to / mag)(v) : v
+  return mag > to ? scale(to / mag)(v) : { ...v }
 }
 
 const normalize = v => {

@@ -30,6 +30,16 @@ const Mealy = (() => {
     return rec
   }
 
+  // Category
+
+  const id = a => [a, id]
+
+  const compose = mealybc => mealyab => a => {
+    const [b, nextab] = mealyab(a)
+    const [c, nextbc] = mealybc(b)
+    return [c, compose(nextbc)(nextab)]
+  }
+
   // Misc
 
   // :: (s -> a -> (b, s)) -> s -> Mealy a b
@@ -57,6 +67,8 @@ const Mealy = (() => {
     ap,
     rmap,
     lcmap,
+    id,
+    compose,
     unfold,
     scan
   }
