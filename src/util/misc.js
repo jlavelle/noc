@@ -108,6 +108,8 @@ const mapInterval = ([cmin, cmax]) => ([nmin, nmax]) => n => {
 const configureGaussian = 
   Obj.map(([sd, m]) => randomGaussian() * sd + m)
 
+const pipeC = C => Arr.foldl(Fn.flip(C.compose))(C.id)
+
 export {
   randomInt,
   randomR,
@@ -123,5 +125,6 @@ export {
   randomGaussianInt,
   montecarlo,
   mapInterval,
-  configureGaussian
+  configureGaussian,
+  pipeC
 }
