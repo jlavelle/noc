@@ -30,10 +30,25 @@ const Mealy = (() => {
     return rec
   }
 
+  const dimap = f => g => p => lcmap(f)(rmap(g)(p))
+
+  // Strong
+
+  // :: Mealy a b -> Mealy (a, c) (b, c)
+  const first = mealy => ([a, c]) => {
+    const [b, next] = mealy(a)
+    return [[b, c], first(next)]
+  }
+
+  // :: Mealy a b -> Mealy (c, a) (c, b)
+  const swap = ([a, b]) => [b, a]
+  const second = mealy => dimap(swap)(swap)(first(mealy))
+
   // Category
 
   const id = a => [a, id]
 
+  // :: Mealy b c -> Mealy a b -> Mealy a c
   const compose = mealybc => mealyab => a => {
     const [b, nextab] = mealyab(a)
     const [c, nextbc] = mealybc(b)
@@ -61,16 +76,23 @@ const Mealy = (() => {
     return vs
   }
 
+  // :: Mealy a b -> Mealy x y -> Mealy (a, x) (b, y)
+  const split = mab => mxy => compose(second(mxy))(first(mab))
+
   return {
     map,
     of,
     ap,
     rmap,
     lcmap,
+    dimap,
     id,
     compose,
     unfold,
-    scan
+    scan,
+    split,
+    first,
+    second
   }
 })()
 

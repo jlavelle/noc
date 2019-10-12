@@ -110,6 +110,53 @@ const configureGaussian =
 
 const pipeC = C => Arr.foldl(Fn.flip(C.compose))(C.id)
 
+// :: (a, (b, ... (c, n))) -> (a, b, c, ...n)
+const flattenNR = xs => {
+  if (xs.length === 2 && !(xs[1] instanceof Array)) {
+    return xs
+  } else {
+    const [x, r] = xs
+    return [x, ...flattenNR(r)]
+  }
+}
+
+const flattenNL = xs => {
+  if (xs.length === 2 && !(xs[0] instanceof Array)) {
+    return xs
+  } else {
+    const [r, x] = xs
+    return [...flattenNL(r), x]
+  }
+}
+
+const nestNR = xs => {
+  if (xs.length === 2) {
+    return xs
+  } else {
+    const [x, ...rest] = xs
+    return [x, nestNR(rest)]
+  }
+}
+
+const nestNL = xs => {
+  if (xs.length === 2) {
+    return xs
+  } else {
+    const rest = xs.slice(0, -1)
+    const x = Arr.last(xs)
+    return [nestNL(rest), x]
+  }
+}
+
+// :: Strong + Category p -> p a b -> p x y -> p (a, b) (x, y)
+const split = SC => pab => pxy => SC.compose(SC.second(pxy))(SC.first(pab))
+
+// :: Strong + Category p -> [p a b] -> p [a] [b]
+const splitN = SC => ([x, ...xs]) => {
+  const nested = Arr.foldl(split(SC))(x)(xs)
+  return SC.dimap(nestNL)(flattenNL)(nested)
+}
+
 export {
   randomInt,
   randomR,
@@ -126,5 +173,11 @@ export {
   montecarlo,
   mapInterval,
   configureGaussian,
-  pipeC
+  pipeC,
+  flattenNR,
+  flattenNL,
+  nestNR,
+  nestNL,
+  split,
+  splitN
 }

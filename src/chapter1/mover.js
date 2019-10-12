@@ -24,7 +24,7 @@ const accelerator = Mealy.unfold(as => s => {
   ])
   const acc = Vec.limit(s.a)(Vec.subtract(s.mouse)(as.pos))
   const nas = positionUpdate(behavior)({...as, acc})
-  const ns = Arr.fold(Obj)([nas, ns, s])
+  const ns = Arr.fold(Obj)([nas, {acc}, s])
   return [ ns, nas ]
 })
 
