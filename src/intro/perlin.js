@@ -24,11 +24,18 @@ export const sketch = p => {
       for (let y = 0; y < h; y++) {
         const br = Math.round(mapInterval([0, 1])([0,255])(p.noise(xoff, yoff, t)))
         const [r, g, b] = heightColors(br)
-        const i = 4 * (x + y * w)
-        p.pixels[i] = r
-        p.pixels[i + 1] = g
-        p.pixels[i + 2] = b
-        p.pixels[i + 3] = 255
+
+        const d = p.pixelDensity();
+        for (let i = 0; i < d; i++) {
+          for (let j = 0; j < d; j++) {
+            const index = 4 * ((y * d + j) * w * d + (x * d + i));
+            p.pixels[index] = r;
+            p.pixels[index+1] = g;
+            p.pixels[index+2] = b;
+            p.pixels[index+3] = 255;
+          }
+        }
+
         yoff += 0.01
       }
       xoff += 0.01
@@ -38,7 +45,6 @@ export const sketch = p => {
 
   p.setup = () => {
     p.createCanvas(w, h)
-    p.ellipse(10, 10, 10, 10)
   }
   
   let t = 0
