@@ -38,7 +38,7 @@ const weightedChoice = xs => p => {
   const [is, vs] = unzip(xs)
   const ws = distribution(is)
   const ww = Arr.zipWith(a => b => [a, b])(ws)(vs)
-  
+
   const go = ([r, v]) => x => p < r ? v : x
   return Arr.foldr(go)(vs[vs.length - 1])(ww)
 }
@@ -49,7 +49,7 @@ const mean = xs => {
   return s / (xs.length > 0 ? xs.length : 1)
 }
 
-const stdDev = xs => 
+const stdDev = xs =>
   Fn.passthru(xs)([
     mean,
     m => Arr.map(x => Math.pow(x - m, 2))(xs),
@@ -106,7 +106,7 @@ const mapInterval = ([cmin, cmax]) => ([nmin, nmax]) => n => {
   return npos
 }
 
-const configureGaussian = 
+const configureGaussian =
   Obj.map(([sd, m]) => randomGaussian() * sd + m)
 
 const pipeC = C => Arr.foldl(Fn.flip(C.compose))(C.id)
@@ -173,6 +173,17 @@ const splitNMealy = xs => {
   return rec(xs)
 }
 
+const frameRateCounter = max => {
+  let past = []
+  return p => {
+    if (past.length >= max) {
+      past.pop()
+    }
+    past.push(p.frameRate())
+    return mean(past)
+  }
+}
+
 export {
   randomInt,
   randomR,
@@ -196,5 +207,6 @@ export {
   nestNL,
   split,
   splitN,
-  splitNMealy
+  splitNMealy,
+  frameRateCounter
 }

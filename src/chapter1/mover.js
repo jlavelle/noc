@@ -1,34 +1,19 @@
 import * as Vec from '../util/vector'
-import { splitNMealy, randomGaussian } from '../util/misc'
+import { splitNMealy, randomGaussian, frameRateCounter } from '../util/misc'
 import { driveMealy, mouseMover } from '../util/mover'
 
 const { Vec2 } = Vec
 
-// const mover2 = ({ pos, vel, diam, width, height, acc }) => {
-//   let _pos = pos
-//   let _vel = vel
-
-//   const render = p => {
-
-//   }
-
-//   return {
-//     step(p) {
-
-//     }
-//   }
-// }
-
 export const sketch = p => {
-  const w = 600
-  const h = 600
+  const w = window.innerWidth - 20
+  const h = window.innerHeight - 20
 
   p.setup = () => {
     p.createCanvas(w, h)
     // p.frameRate(1)
   }
 
-  const n = 200
+  const n = 300
 
   const randomConfig = () => ({
     p5: p,
@@ -52,10 +37,12 @@ export const sketch = p => {
   }
 
   const mv = driveMealy(splitNMealy(Array(n).fill(mouseMover)))
+  const fr = frameRateCounter(20)
 
   p.draw = () => {
     p.background(0)
     p.fill(255)
     mv(configs)
+    p.text(Math.round(fr(p)), 10, 15)
   }
 }
