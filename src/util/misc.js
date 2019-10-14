@@ -157,6 +157,11 @@ const splitN = SC => ([x, ...xs]) => {
   return SC.dimap(nestNL)(flattenNL)(nested)
 }
 
+const zipWith3 = f => a => b => c => {
+  const o1 = Obj.zipWith(f)(a)(b)
+  return Obj.zipWith(f => a => f(a))(o1)(c)
+}
+
 export {
   randomInt,
   randomR,
@@ -179,5 +184,6 @@ export {
   nestNR,
   nestNL,
   split,
-  splitN
+  splitN,
+  zipWith3
 }
