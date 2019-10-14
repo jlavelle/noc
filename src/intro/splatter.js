@@ -1,4 +1,4 @@
-import { Obj } from '@masaeedu/fp'
+import * as Obj from '../util/fastObj'
 import { randomGaussian, configureGaussian } from '../util/misc'
 import { add } from '../util/vector'
 

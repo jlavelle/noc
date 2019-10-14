@@ -1,4 +1,5 @@
-import { Arr, Obj, Fn } from '@masaeedu/fp'
+import { Arr, Fn } from '@masaeedu/fp'
+import * as Obj from '../util/fastObj'
 import { 
   randomInt,
   weightedChoice,

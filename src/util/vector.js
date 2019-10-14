@@ -1,17 +1,19 @@
-import { Obj, IntSum } from '@masaeedu/fp'
+import { IntSum } from '@masaeedu/fp'
+import { zipWith, map, fold, foldMap } from './fastObj'
+
 
 const Vec2 = x => y => ({ x, y })
 const Vec3 = x => y => z => ({x, y, z})
 
-const add = Obj.zipWith(a => b => a + b)
+const add = zipWith(a => b => a + b)
 
-const subtract = Obj.zipWith(a => b => a - b)
+const subtract = zipWith(a => b => a - b)
 
-const scale = n => Obj.map(x => x * n)
+const scale = n => map(x => x * n)
 
-const dot = v1 => v2 => Obj.fold(IntSum)(Obj.zipWith(a => b => a * b)(v1)(v2))
+const dot = v1 => v2 => fold(IntSum)(zipWith(a => b => a * b)(v1)(v2))
 
-const magnitude = v => Math.sqrt(Obj.foldMap(IntSum)(x => x * x)(v))
+const magnitude = v => Math.sqrt(foldMap(IntSum)(x => x * x)(v))
 
 const setMagnitude = to => v => scale(to / magnitude(v))(v)
 
