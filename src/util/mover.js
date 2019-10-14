@@ -2,7 +2,7 @@ import { Fn, Arr, Maybe } from '@masaeedu/fp'
 import * as Obj from './fastObj'
 import * as Vec from './vector'
 import Mealy from './mealy'
-import { pipeC, zipWith3 } from './misc'
+import { pipeC } from './misc'
 
 const { Vec2 } = Vec
 
@@ -23,7 +23,7 @@ const bouncingBehavior = velProp => posProp => ({ w, h, rad }) => o => {
   const bounds = Vec2(w)(h)
   const pos = o[posProp]
   const vel = o[velProp]
-  const nv = zipWith3(newVel(rad))(pos)(vel)(bounds)
+  const nv = Obj.zipWith3(newVel(rad))(pos)(vel)(bounds)
   return Obj.over(velProp)(Fn.const(nv))(o)
 }
 

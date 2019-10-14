@@ -1,4 +1,5 @@
-import { Arr, IntSum, Fn, Obj } from '@masaeedu/fp'
+import { Arr, IntSum, Fn } from '@masaeedu/fp'
+import * as Obj from './fastObj'
 
 const randomInt = i => Math.floor(Math.random() * i)
 
@@ -172,11 +173,6 @@ const splitNMealy = xs => {
   return rec(xs)
 }
 
-const zipWith3 = f => a => b => c => {
-  const o1 = Obj.zipWith(f)(a)(b)
-  return Obj.zipWith(f => a => f(a))(o1)(c)
-}
-
 export {
   randomInt,
   randomR,
@@ -200,6 +196,5 @@ export {
   nestNL,
   split,
   splitN,
-  splitNMealy,
-  zipWith3
+  splitNMealy
 }
