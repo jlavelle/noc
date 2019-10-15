@@ -9,7 +9,7 @@ const Mealy = (() => {
     }
     return rec
   }
-
+  
   // Applicative
   const of = x => _ => [x, of(x)]
 
