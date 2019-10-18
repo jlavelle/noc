@@ -13,7 +13,7 @@ export const sketch = p => {
     p.frameRate(60);
   };
 
-  const n = 300;
+  const n = 1000;
 
   const randomConfig = () => ({
     p5: p,

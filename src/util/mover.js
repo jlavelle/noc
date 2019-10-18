@@ -33,6 +33,7 @@ const bouncingBehavior = velProp => posProp => ({
   return Obj.over(velProp)(Fn.const(nv))(o);
 };
 
+// TODO: Fix this, collides should return an Either
 const boundingBehavior = posProp => ({ width, height, diameter }) => o => {
   const newPos = diameter => position => ([upper, lower]) => {
     const c = collides(diameter)(position)([upper, lower]);

@@ -13,12 +13,15 @@ const behavior = s =>
     Mover.boundingBehavior("position")(s)
   ]);
 
-const unfoldBalloon = Mealy.unfold(state => input => {
+const friction = c => velocity => Vec.scale(-1 * c)(Vec.normalize(velocity));
+
+const unfoldBall = Mealy.unfold(state => input => {
   const behaviorFn = behavior(input);
   const updater = Mover.positionUpdate(behaviorFn);
+  const forces = [friction(input.c)(state.velocity), ...input.forces];
   const nextState = updater({
     ...state,
-    acceleration: Vec.scale(1 / input.mass)(Arr.fold(VecSum)(input.forces))
+    acceleration: Vec.scale(1 / input.mass)(Arr.fold(VecSum)(forces))
   });
   return [Obj.append(input)(nextState), nextState];
 });
@@ -35,11 +38,13 @@ export const sketch = p => {
 
   p.setup = () => {
     p.createCanvas(width, height);
+    p.noStroke();
+    //p.frameRate(1);
   };
 
-  const foo = unfoldBalloon(initialState);
+  const c = 0.01;
 
-  const balloon = pipeC(Mealy)([foo, Mover.ellipseRender]);
+  const ball = pipeC(Mealy)([unfoldBall(initialState), Mover.ellipseRender]);
 
   const config = {
     width,
@@ -47,10 +52,11 @@ export const sketch = p => {
     diameter: 50,
     p5: p,
     forces: [Vec2(0)(-0.1), Vec2(0.1)(0)],
-    mass: 10
+    mass: 10,
+    c
   };
 
-  const m = Mover.driveMealy(balloon);
+  const m = Mover.driveMealy(ball);
 
   p.draw = () => {
     p.background(0);

@@ -6,7 +6,7 @@ import p5 from "p5";
 //import { sketch } from './intro/perlin'
 // import { sketch } from './intro/landscape'
 //import { sketch } from './chapter1/ball'
-// import { sketch } from './chapter1/mover'
+//import { sketch } from "./chapter1/mover";
 import { sketch } from "./chapter2/balloon";
 
 let s;
