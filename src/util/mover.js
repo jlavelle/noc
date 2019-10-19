@@ -17,11 +17,11 @@ const positionUpdate = f => state => {
 const wrapDim = max => val => (val > max ? 0 : val < 0 ? max : val);
 const wrapVec = Obj.zipWith(wrapDim);
 
-const collides = diameter => position => ([upper, lower]) =>
+const outOfBounds = diameter => position => ([upper, lower]) =>
   position + diameter / 2 >= upper || position - diameter / 2 <= lower;
 
 const bounce = diameter => position => velocity => bounds =>
-  collides(diameter)(position)(bounds) ? velocity * -1 : velocity;
+  outOfBounds(diameter)(position)(bounds) ? velocity * -1 : velocity;
 
 const bouncingBehavior = velProp => posProp => ({
   width,
@@ -35,10 +35,10 @@ const bouncingBehavior = velProp => posProp => ({
   return Obj.over(velProp)(Fn.const(nv))(o);
 };
 
-// TODO: Fix this, collides should return an Either
+// TODO: Fix this, outOfBounds should return an Either
 const boundingBehavior = posProp => ({ width, height, diameter }) => o => {
   const newPos = diameter => position => ([upper, lower]) => {
-    const c = collides(diameter)(position)([upper, lower]);
+    const c = outOfBounds(diameter)(position)([upper, lower]);
     if (c) {
       return position + diameter / 2 >= upper
         ? upper - diameter / 2
@@ -117,6 +117,7 @@ const driveMealy = m => {
 };
 
 export {
+  outOfBounds,
   mouseMover,
   driveMealy,
   bouncingBehavior,

@@ -2,7 +2,12 @@ import * as Mover from "../util/mover";
 import Mealy from "../util/mealy";
 import { Fn, Arr, Maybe } from "@masaeedu/fp";
 import * as Vec from "../util/vector";
-import { pipeC, mapMaybe, circlesOverlap } from "../util/misc";
+import {
+  pipeC,
+  mapMaybe,
+  circlesOverlap,
+  circleRectOverlap
+} from "../util/misc";
 import * as Obj from "../util/fastObj";
 
 const { Nothing, Just } = Maybe;
@@ -48,7 +53,7 @@ const edgeRepel = w => h => ({ state: { position } }) => {
 const zones = zs => ({ state }) => {
   const { position, diameter } = state;
   const fs = mapMaybe(z => {
-    const o = circlesOverlap({ position, radius: diameter / 2 })(z);
+    const o = z.collides({ position, diameter })(z);
     return o ? Just(z.force(state)) : Nothing;
   })(zs);
   return Arr.fold(VecSum)(fs);
@@ -57,6 +62,12 @@ const zones = zs => ({ state }) => {
 const gravity = g => ({ state: { mass } }) => {
   return Vec2(0)(g * mass);
 };
+
+// Fd = 1/2 * rho * v^2 * A * C * unit(v)
+const dragForce = ({ rho, c }) => ({ velocity }) =>
+  Vec.scale(-0.25 * rho * Math.pow(Vec.magnitude(velocity), 2))(
+    Vec.normalize(velocity)
+  );
 
 export const sketch = p => {
   const width = window.innerWidth - 20;
@@ -82,8 +93,20 @@ export const sketch = p => {
   const zs = [
     {
       position: Vec2(width / 2)(height / 2),
-      radius: 200,
-      force: ({ velocity }) => friction(-1)(velocity)
+      radius: 300,
+      force: ({ velocity }) => friction(-1)(velocity),
+      collides: ({ position, diameter }) => z =>
+        circlesOverlap({ position, radius: diameter / 2 })(z)
+    },
+    {
+      position: Vec2(0)((2 * height) / 3),
+      width,
+      height: height / 3,
+      force: dragForce({ rho: 1, c }),
+      collides: c => z => {
+        const r = circleRectOverlap(c)(z);
+        return r;
+      }
     }
   ];
 
@@ -96,7 +119,7 @@ export const sketch = p => {
     forces: [],
     ballUpdate: ballUpdate(c),
     dynamicForces: [
-      ({ state }) => friction(c)(state.velocity),
+      //({ state }) => friction(c)(state.velocity),
       gravity(g),
       edgeRepel(width)(height),
       zones(zs)
@@ -111,7 +134,9 @@ export const sketch = p => {
     p.noFill();
     p.stroke(255);
     zs.forEach(z => {
-      p.ellipse(z.position.x, z.position.y, z.radius * 2, z.radius * 2);
+      z["radius"]
+        ? p.ellipse(z.position.x, z.position.y, z.radius * 2, z.radius * 2)
+        : p.rect(z.position.x, z.position.y, z.width, z.height);
     });
     p.fill(255);
     p.noStroke();

@@ -2,6 +2,8 @@ import { Arr, IntSum, Fn, Maybe } from "@masaeedu/fp";
 import * as Obj from "./fastObj";
 import * as Vec from "./vector";
 
+const { Vec2 } = Vec;
+
 const randomInt = i => Math.floor(Math.random() * i);
 
 const randomR = a => b => Math.random() * (b - a) + a;
@@ -203,6 +205,19 @@ const circlesOverlap = a => b => {
   );
 };
 
+const rectBounds = ({ position, width, height }) =>
+  Vec2([position.x + height, position.x])([position.y + width, position.y]);
+
+// TODO: account for rotation
+const circleRectOverlap = circle => rect => {
+  const inRect = rad => pos => ([upper, lower]) =>
+    pos + rad >= lower && pos - rad <= upper;
+  const dims = Obj.zipWith(inRect(circle.diameter / 2))(circle.position)(
+    rectBounds(rect)
+  );
+  return Obj.fold({ append: a => b => a && b, empty: true })(dims);
+};
+
 export {
   randomInt,
   randomR,
@@ -229,5 +244,6 @@ export {
   splitNMealy,
   frameRateCounter,
   mapMaybe,
-  circlesOverlap
+  circlesOverlap,
+  circleRectOverlap
 };
