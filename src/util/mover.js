@@ -6,10 +6,12 @@ import { pipeC } from "./misc";
 
 const { Vec2 } = Vec;
 
-const positionUpdate = f => ({ position, velocity, acceleration }) => {
+const positionUpdate = f => state => {
+  const { position, velocity, acceleration } = state;
   const nv = Vec.add(velocity)(acceleration);
   const np = Vec.add(position)(nv);
-  return { acceleration, ...f({ position: np, velocity: nv }) };
+  const ns = { ...state, ...f({ position: np, velocity: nv }) };
+  return ns;
 };
 
 const wrapDim = max => val => (val > max ? 0 : val < 0 ? max : val);
@@ -48,7 +50,8 @@ const boundingBehavior = posProp => ({ width, height, diameter }) => o => {
   const np = Obj.zipWith(newPos(diameter))(o[posProp])(
     Vec2([width, 0])([height, 0])
   );
-  return Obj.over(posProp)(Fn.const(np))(o);
+  const r = Obj.over(posProp)(Fn.const(np))(o);
+  return r;
 };
 
 const wrappingBehavior = prop => ({ width, height }) =>

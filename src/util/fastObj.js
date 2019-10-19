@@ -1,75 +1,75 @@
-import { Obj } from '@masaeedu/fp'
+import { Obj } from "@masaeedu/fp";
 
 const zipWith = f => a => b => {
-  let result = {}
+  let result = {};
   for (const k in a) {
-    const bk = b[k]
+    const bk = b[k];
     if (bk !== undefined) {
-      result[k] = f(a[k])(b[k])
+      result[k] = f(a[k])(b[k]);
     }
   }
-  return result
-}
+  return result;
+};
 
 const zipWith3 = f => a => b => c => {
-  let result = {}
+  let result = {};
   for (const k in a) {
-    const bk = b[k]
-    const ck = c[k]
+    const bk = b[k];
+    const ck = c[k];
     if (bk !== undefined && ck !== undefined) {
-      result[k] = f(a[k])(b[k])(c[k])
+      result[k] = f(a[k])(b[k])(c[k]);
     }
   }
-  return result
-}
+  return result;
+};
 
 const foldMap = ({ append, empty }) => f => a => {
-  let result = empty
+  let result = empty;
   for (const k in a) {
-    result = append(result)(f(a[k]))
+    result = append(result)(f(a[k]));
   }
-  return result
-}
+  return result;
+};
 
-const fold = m => foldMap(m)(a => a)
+const fold = m => foldMap(m)(a => a);
 
 const map = f => a => {
-  let result = {}
+  let result = {};
   for (const k in a) {
-    result[k] = f(a[k])
+    result[k] = f(a[k]);
   }
-  return result
-}
+  return result;
+};
 
 const over = prop => f => o => {
-  let result = {}
+  let result = {};
   for (const k in o) {
-    result[k] = k === prop ? f(o[k]) : o[k]
+    result[k] = k === prop ? f(o[k]) : o[k];
   }
-  return result
-}
+  return result;
+};
 
 const append = o1 => o2 => {
-  let result = {}
+  let result = {};
   for (const k in o1) {
-    result[k] = o1[k]
+    result[k] = o1[k];
   }
   for (const k in o2) {
-    result[k] = o2[k]
+    result[k] = o2[k];
   }
-  return result
-}
+  return result;
+};
 
 const fromPairs = ps => {
-  let result = {}
+  let result = {};
   for (let x = 0; x < ps.length; x++) {
-    const [k, v] = ps[x]
-    result[k] = v
+    const [k, v] = ps[x];
+    result[k] = v;
   }
-  return result
-}
+  return result;
+};
 
-const empty = {}
+const empty = {};
 
 export {
   zipWith,
@@ -81,4 +81,4 @@ export {
   append,
   empty,
   fromPairs
-}
+};
