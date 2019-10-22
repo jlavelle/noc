@@ -233,6 +233,10 @@ const keyListener = () => {
   return keys;
 };
 
+const innerWidthHeight = inset => {
+  return [window.innerWidth - inset, window.innerHeight - inset];
+};
+
 export {
   randomInt,
   randomR,
@@ -263,5 +267,6 @@ export {
   circleRectOverlap,
   radians,
   degrees,
-  keyListener
+  keyListener,
+  innerWidthHeight
 };
