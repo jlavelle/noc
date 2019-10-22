@@ -222,6 +222,17 @@ const radians = d => (d * 2 * Math.PI) / 360;
 
 const degrees = r => (r * 360) / (Math.PI * 2);
 
+const keyListener = () => {
+  let keys = {};
+  window.addEventListener("keydown", e => {
+    keys[e.key] = true;
+  });
+  window.addEventListener("keyup", e => {
+    keys[e.key] = false;
+  });
+  return keys;
+};
+
 export {
   randomInt,
   randomR,
@@ -251,5 +262,6 @@ export {
   circlesOverlap,
   circleRectOverlap,
   radians,
-  degrees
+  degrees,
+  keyListener
 };

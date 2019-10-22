@@ -117,6 +117,7 @@ const driveMealy = m => {
 };
 
 export {
+  wrapVec,
   outOfBounds,
   mouseMover,
   driveMealy,

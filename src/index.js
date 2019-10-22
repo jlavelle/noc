@@ -10,7 +10,8 @@ import p5 from "p5";
 //import { sketch } from "./chapter2/balls";
 //import { sketch } from "./chapter2/attractors";
 //import { sketch } from "./chapter3/baton";
-import { sketch } from "./chapter3/cannon";
+//import { sketch } from "./chapter3/cannon";
+import { sketch } from "./chapter3/spaceship";
 
 let s;
 
