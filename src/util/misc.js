@@ -218,6 +218,10 @@ const circleRectOverlap = circle => rect => {
   return Obj.fold({ append: a => b => a && b, empty: true })(dims);
 };
 
+const radians = d => (d * 2 * Math.PI) / 360;
+
+const degrees = r => (r * 360) / (Math.PI * 2);
+
 export {
   randomInt,
   randomR,
@@ -245,5 +249,7 @@ export {
   frameRateCounter,
   mapMaybe,
   circlesOverlap,
-  circleRectOverlap
+  circleRectOverlap,
+  radians,
+  degrees
 };
