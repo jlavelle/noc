@@ -12,7 +12,8 @@ import p5 from "p5";
 //import { sketch } from "./chapter3/baton";
 //import { sketch } from "./chapter3/cannon";
 //import { sketch } from "./chapter3/spaceship";
-import { sketch } from "./chapter3/pendulum";
+// import { sketch } from "./chapter3/pendulum";
+import { sketch } from "./chapter3/spring";
 
 let s;
 

@@ -33,11 +33,9 @@ const gravity = g => ({ state: { mass } }) => {
 // Fd = 1/2 * rho * v^2 * A * C * unit(v)
 const dragForce = ({ rho, c }) => ({ velocity, diameter }) => {
   const a = diameter * 0.5 * Math.PI;
-  console.log(velocity);
   const fd = Vec.scale(-0.25 * rho * Math.pow(Vec.magnitude(velocity), 2) * a)(
     Vec.normalize(velocity)
   );
-  console.log(fd);
   return fd;
 };
 
