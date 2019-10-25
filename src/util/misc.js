@@ -54,12 +54,24 @@ const mean = xs => {
   return s / (xs.length > 0 ? xs.length : 1);
 };
 
+// Standard deviation for a sample of a population divides the sum
+// of the variances by N - 1 instead of N
 const stdDev = xs =>
   Fn.passthru(xs)([
     mean,
     m => Arr.map(x => Math.pow(x - m, 2))(xs),
     Arr.fold(IntSum),
     is => is / (xs.length - 1),
+    Math.sqrt
+  ]);
+
+// Standard deviation for a population is just the square root
+// of the average variance
+const stdDevPop = xs =>
+  Fn.passthru(xs)([
+    mean,
+    m => Arr.map(x => Math.pow(x - m, 2))(xs),
+    mean,
     Math.sqrt
   ]);
 
@@ -248,6 +260,7 @@ export {
   weightedChoice,
   mean,
   stdDev,
+  stdDevPop,
   roundToPrecision,
   randomGaussian,
   randomGaussianInt,

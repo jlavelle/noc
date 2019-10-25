@@ -3,6 +3,7 @@ import {
   weightedChoice,
   unzip,
   stdDev,
+  stdDevPop,
   mean,
   roundToPrecision,
   mapInterval,
@@ -45,6 +46,12 @@ test("stdDev", t => {
   const scores = [85, 82, 88, 86, 85, 93, 98, 40, 73, 83];
   t.is(81.3, mean(scores));
   t.is(15.94, roundToPrecision(stdDev(scores))(0.01));
+});
+
+test("stdDevPop", t => {
+  const scores = [85, 82, 88, 86, 85, 93, 98, 40, 73, 83];
+  t.is(81.3, mean(scores));
+  t.is(15.13, roundToPrecision(stdDevPop(scores))(0.01));
 });
 
 test("mapInterval", t => {
