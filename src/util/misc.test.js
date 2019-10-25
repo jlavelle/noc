@@ -44,7 +44,7 @@ test("weightedChoice", t => {
 test("stdDev", t => {
   const scores = [85, 82, 88, 86, 85, 93, 98, 40, 73, 83];
   t.is(81.3, mean(scores));
-  t.is(15.13, roundToPrecision(stdDev(scores))(0.01));
+  t.is(15.94, roundToPrecision(stdDev(scores))(0.01));
 });
 
 test("mapInterval", t => {

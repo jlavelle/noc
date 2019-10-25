@@ -58,7 +58,8 @@ const stdDev = xs =>
   Fn.passthru(xs)([
     mean,
     m => Arr.map(x => Math.pow(x - m, 2))(xs),
-    mean,
+    Arr.fold(IntSum),
+    is => is / (xs.length - 1),
     Math.sqrt
   ]);
 
