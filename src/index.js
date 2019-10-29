@@ -13,7 +13,8 @@ import p5 from "p5";
 //import { sketch } from "./chapter3/cannon";
 //import { sketch } from "./chapter3/spaceship";
 // import { sketch } from "./chapter3/pendulum";
-import { sketch } from "./chapter3/spring";
+// import { sketch } from "./chapter3/spring";
+import { sketch } from "./other/rectoverlap";
 
 let s;
 

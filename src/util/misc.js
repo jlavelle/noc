@@ -231,6 +231,13 @@ const circleRectOverlap = circle => rect => {
   return Obj.fold({ append: a => b => a && b, empty: true })(dims);
 };
 
+const rectOverlap = r1 => r2 => {
+  const checkDim = c => d =>
+    r1.position[c] + r1[d] >= r2.position[c] &&
+    r1.position[c] <= r2.position[c] + r2[d];
+  return checkDim("x")("width") && checkDim("y")("height");
+};
+
 const radians = d => (d * 2 * Math.PI) / 360;
 
 const degrees = r => (r * 360) / (Math.PI * 2);
@@ -282,5 +289,6 @@ export {
   radians,
   degrees,
   keyListener,
-  innerWidthHeight
+  innerWidthHeight,
+  rectOverlap
 };

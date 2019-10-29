@@ -5,6 +5,8 @@ import { Arr } from "@masaeedu/fp";
 
 const { Vec2 } = Vec;
 
+// TODO: Multiple spring exercise
+
 export const sketch = p => {
   const [width, height] = innerWidthHeight(20);
 
