@@ -23,6 +23,7 @@ export const sketch = p => {
   p.setup = () => {
     p.createCanvas(width, height);
     p.background(0);
+    //p.frameRate(5);
   };
 
   const render = balls =>
@@ -57,6 +58,20 @@ export const sketch = p => {
     return (v1 * (m1 - m2) + 2 * m2 * v2) / (m1 + m2);
   };
 
+  const settle = un => a => b => {
+    const dsq = Vec.distanceSq(a.position)(b.position);
+    const rads = a.radius + b.radius;
+    if (dsq < Math.pow(rads - 1, 2)) {
+      const nbs = [
+        { ...a, position: Vec.add(a.position)(Vec.scale(-1)(un)) },
+        { ...b, position: Vec.add(b.position)(un) }
+      ];
+      return nbs;
+    } else {
+      return [a, b];
+    }
+  };
+
   const circleCollision = x1 => x2 => {
     const u_norm = Vec.normalize(Vec.subtract(x2.position)(x1.position));
     const u_tang = Vec2(-u_norm.y)(u_norm.x);
@@ -72,7 +87,7 @@ export const sketch = p => {
     const nv1 = Vec.add(Vec.scale(next_v1_n)(u_norm))(Vec.scale(v1_t)(u_tang));
     const nv2 = Vec.add(Vec.scale(next_v2_n)(u_norm))(Vec.scale(v2_t)(u_tang));
 
-    return [{ ...x1, velocity: nv1 }, { ...x2, velocity: nv2 }];
+    return settle(u_norm)({ ...x1, velocity: nv1 })({ ...x2, velocity: nv2 });
   };
 
   const updateCollidedWith = x => i =>
@@ -87,7 +102,6 @@ export const sketch = p => {
   const checkCollision = id1 => balls => x1 => {
     return foldlWithKey(id2 => acc => x2 => {
       if (collides([id1, x1])([id2, x2])) {
-        console.log("collision:", id1, id2);
         const [nx1, nx2] = circleCollision(x1)(x2);
         return setAtIndices([
           [id1, updateCollidedWith(nx1)(id2)],
@@ -121,7 +135,7 @@ export const sketch = p => {
     };
   };
 
-  let balls = Array(20)
+  let balls = Array(50)
     .fill(0)
     .map(randomBall);
 
