@@ -14,7 +14,8 @@ import p5 from "p5";
 //import { sketch } from "./chapter3/spaceship";
 // import { sketch } from "./chapter3/pendulum";
 // import { sketch } from "./chapter3/spring";
-import { sketch } from "./other/rectoverlap";
+// import { sketch } from "./other/rectoverlap";
+import { sketch } from "./other/collision";
 
 let s;
 

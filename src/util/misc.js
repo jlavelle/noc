@@ -26,6 +26,10 @@ const scanl1 = f =>
     Cons: x => xs => scanl(f)(x)(xs)
   });
 
+const filterWithKey = p => xs => xs.filter((x, i) => p(i)(x));
+
+const foldlWithKey = f => z => xs => xs.reduce((acc, x, i) => f(i)(acc)(x), z);
+
 const cumulative = scanl1(x => y => x + y);
 
 const distribution = Fn.pipe([weights(Arr), cumulative]);
@@ -201,22 +205,36 @@ const frameRateCounter = max => {
   };
 };
 
-const mapMaybe = f => xs => {
+const mapMaybeWithKey = f => xs => {
   let result = [];
   for (let i = 0; i < xs.length; i++) {
     Maybe.match({
       Just: x => result.push(x),
       Nothing: () => {}
-    })(f(xs[i]));
+    })(f(i)(xs[i]));
   }
   return result;
 };
 
-const circlesOverlap = a => b => {
-  return (
-    Vec.magnitude(Vec.subtract(a.position)(b.position)) <= a.radius + b.radius
-  );
+const mapMaybe = f => xs => mapMaybeWithKey(_ => x => f(x))(xs);
+
+const setAtIndex = i => v => xs => {
+  let result = xs.slice(0);
+  result[i] = v;
+  return result;
 };
+
+const setAtIndices = kvs => xs => {
+  let result = xs.slice(0);
+  for (let i = 0; i < kvs.length; i++) {
+    const [k, v] = kvs[i];
+    result[k] = v;
+  }
+  return result;
+};
+
+const circlesOverlap = a => b =>
+  Vec.distanceSq(a.position)(b.position) <= Math.pow(a.radius + b.radius, 2);
 
 const rectBounds = ({ position, width, height }) =>
   Vec2([position.x + height, position.x])([position.y + width, position.y]);
@@ -264,6 +282,8 @@ export {
   cumulative,
   distribution,
   unzip,
+  filterWithKey,
+  foldlWithKey,
   weightedChoice,
   mean,
   stdDev,
@@ -284,6 +304,9 @@ export {
   splitNMealy,
   frameRateCounter,
   mapMaybe,
+  mapMaybeWithKey,
+  setAtIndex,
+  setAtIndices,
   circlesOverlap,
   circleRectOverlap,
   radians,
