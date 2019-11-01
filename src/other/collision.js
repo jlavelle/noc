@@ -14,7 +14,6 @@ import {
   bouncingBehavior,
   boundingBehavior
 } from "../util/mover";
-import { random } from "node-forge";
 const { Vec2 } = Vec;
 
 export const sketch = p => {
@@ -58,20 +57,6 @@ export const sketch = p => {
     return (v1 * (m1 - m2) + 2 * m2 * v2) / (m1 + m2);
   };
 
-  const settle = un => a => b => {
-    const dsq = Vec.distanceSq(a.position)(b.position);
-    const rads = a.radius + b.radius;
-    if (dsq < Math.pow(rads - 1, 2)) {
-      const nbs = [
-        { ...a, position: Vec.add(a.position)(Vec.scale(-1)(un)) },
-        { ...b, position: Vec.add(b.position)(un) }
-      ];
-      return nbs;
-    } else {
-      return [a, b];
-    }
-  };
-
   const circleCollision = x1 => x2 => {
     const u_norm = Vec.normalize(Vec.subtract(x2.position)(x1.position));
     const u_tang = Vec2(-u_norm.y)(u_norm.x);
@@ -87,7 +72,14 @@ export const sketch = p => {
     const nv1 = Vec.add(Vec.scale(next_v1_n)(u_norm))(Vec.scale(v1_t)(u_tang));
     const nv2 = Vec.add(Vec.scale(next_v2_n)(u_norm))(Vec.scale(v2_t)(u_tang));
 
-    return settle(u_norm)({ ...x1, velocity: nv1 })({ ...x2, velocity: nv2 });
+    return [
+      {
+        ...x1,
+        velocity: nv1,
+        position: Vec.add(x1.position)(Vec.scale(-1)(u_norm))
+      },
+      { ...x2, velocity: nv2, position: Vec.add(x2.position)(u_norm) }
+    ];
   };
 
   const updateCollidedWith = x => i =>
@@ -120,7 +112,7 @@ export const sketch = p => {
 
   const randomBall = () => {
     const radius = randomInt(30) + 10;
-    const mass = radius * radius;
+    const mass = Math.pow(radius, 3);
     const position = Vec2(randomInt(width))(randomInt(height));
     const velocity = Vec2(randomInt(5))(randomInt(5));
     const color = [randomInt(255), randomInt(255), randomInt(255)];
