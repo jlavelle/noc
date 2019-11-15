@@ -123,6 +123,7 @@ export {
   driveMealy,
   bouncingBehavior,
   boundingBehavior,
+  limitingBehavior,
   positionUpdate,
   ellipseRender
 };

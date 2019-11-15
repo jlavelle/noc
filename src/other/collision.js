@@ -112,10 +112,12 @@ export const sketch = p => {
     ];
   };
 
+  //TODO: prevent the flickering somehow, maybe by keeping a rolling average
+  // of the max. velocity
   const updateColor = mv => x => {
     const { position, color, velocity } = x;
     const vsq = Vec.magnitudeSq(velocity);
-    const r = mapInterval([0, mv])([0, 255])(vsq);
+    const r = mapInterval([0, mv])([20, 255])(vsq);
     return {
       ...x,
       color: [r, 0, 0]
@@ -130,7 +132,7 @@ export const sketch = p => {
   };
 
   const randomBall = () => {
-    const radius = randomInt(30) + 20;
+    const radius = randomInt(30) + 10;
     const mass = Math.pow(radius, 3);
     const position = Vec2(randomInt(width))(randomInt(height));
     const velocity = Vec2(randomInt(5))(randomInt(5));
