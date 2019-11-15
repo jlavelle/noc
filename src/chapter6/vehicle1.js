@@ -14,6 +14,7 @@ export const sketch = p => {
 
   const maxForce = 0.1;
   const topSpeed = 4;
+  const s = 5;
 
   const vehicle = {
     position: Vec2(w / 2)(h / 2),
@@ -42,8 +43,16 @@ export const sketch = p => {
     return Fn.passthru(vehicle)([applyForces([f]), updatePos]);
   };
 
-  const render = ({ position }) => {
-    p.ellipse(position.x, position.y, 10, 10);
+  const render = ({ position, velocity }) => {
+    p.push();
+    p.translate(position.x, position.y);
+    p.rotate(Vec.heading2D(velocity) + Math.PI / 2);
+    p.beginShape();
+    p.vertex(0, -s * 2);
+    p.vertex(-s, s * 2);
+    p.vertex(s, s * 2);
+    p.endShape();
+    p.pop();
   };
 
   let v = vehicle;

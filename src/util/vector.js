@@ -32,6 +32,11 @@ const distanceSq = v1 => v2 => magnitudeSq(subtract(v2)(v1));
 
 const distance = v1 => v2 => Math.sqrt(distanceSq(v1)(v2));
 
+const heading2D = ({ x, y }) => {
+  const t = Math.atan2(y, x);
+  return t < 0 ? t : t;
+};
+
 const VecSum = {
   append: add,
   empty: Vec3(0)(0)(0)
@@ -51,5 +56,6 @@ export {
   limit,
   VecSum,
   distanceSq,
-  distance
+  distance,
+  heading2D
 };
