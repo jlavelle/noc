@@ -4,7 +4,8 @@ import {
   foldlWithKey,
   setAtIndices,
   frameRateCounter,
-  randomInt
+  randomInt,
+  mapInterval
 } from "../util/misc";
 import * as Vec from "../util/vector";
 import * as Obj from "../util/fastObj";
@@ -17,11 +18,12 @@ import {
 const { Vec2 } = Vec;
 
 export const sketch = p => {
-  const [width, height] = innerWidthHeight(20);
+  const [width, height] = innerWidthHeight(16);
 
   p.setup = () => {
     p.createCanvas(width, height);
     p.background(0);
+    p.noStroke();
     //p.frameRate(5);
   };
 
@@ -91,27 +93,44 @@ export const sketch = p => {
       return s;
     })(x);
 
-  const checkCollision = id1 => balls => x1 => {
-    return foldlWithKey(id2 => acc => x2 => {
-      if (collides([id1, x1])([id2, x2])) {
-        const [nx1, nx2] = circleCollision(x1)(x2);
-        return setAtIndices([
-          [id1, updateCollidedWith(nx1)(id2)],
-          [id2, updateCollidedWith(nx2)(id1)]
-        ])(acc);
-      } else {
-        return acc;
-      }
-    })(balls)(balls);
+  const checkCollision = id1 => ([maxV, balls]) => x1 => {
+    const vsq = Vec.magnitudeSq(x1.velocity);
+    const nmax = Math.max(vsq, maxV);
+    return [
+      nmax,
+      foldlWithKey(id2 => acc => x2 => {
+        if (collides([id1, x1])([id2, x2])) {
+          const [nx1, nx2] = circleCollision(x1)(x2);
+          return setAtIndices([
+            [id1, updateCollidedWith(nx1)(id2)],
+            [id2, updateCollidedWith(nx2)(id1)]
+          ])(acc);
+        } else {
+          return acc;
+        }
+      })(balls)(balls)
+    ];
   };
 
-  const step = balls => {
-    const nbs = foldlWithKey(checkCollision)(balls)(balls);
-    return Arr.map(Fn.pipe([updatePos, clearCollidedWith]))(nbs);
+  const updateColor = mv => x => {
+    const { position, color, velocity } = x;
+    const vsq = Vec.magnitudeSq(velocity);
+    const r = mapInterval([0, mv])([0, 255])(vsq);
+    return {
+      ...x,
+      color: [r, 0, 0]
+    };
+  };
+
+  const step = balls => t => {
+    const [maxV, nbs] = foldlWithKey(checkCollision)([0, balls])(balls);
+    return Arr.map(Fn.pipe([updatePos, clearCollidedWith, updateColor(maxV)]))(
+      nbs
+    );
   };
 
   const randomBall = () => {
-    const radius = randomInt(30) + 10;
+    const radius = randomInt(30) + 20;
     const mass = Math.pow(radius, 3);
     const position = Vec2(randomInt(width))(randomInt(height));
     const velocity = Vec2(randomInt(5))(randomInt(5));
@@ -138,12 +157,16 @@ export const sketch = p => {
 
   const fr = frameRateCounter(10);
 
+  let t = 0;
+
   p.draw = () => {
     p.background(0);
+
     render(balls);
-    balls = step(balls);
+    balls = step(balls)(t);
     p.fill(100);
     p.text(`FPS: ${Math.round(fr(p))}`, 10, 15);
     p.text(`KE: ${Math.round(kineticE(balls))}`, 10, 30);
+    t += 0.01;
   };
 };
