@@ -21,7 +21,7 @@ export const sketch = p => {
   const s = 5;
   const arriveDist = 100;
   const wanderRadius = 20;
-  const wanderDistance = 50;
+  const wanderDistance = 75;
 
   const vehicle = {
     position: Vec2(w / 2)(h / 2),
@@ -55,10 +55,14 @@ export const sketch = p => {
     );
   };
 
+  // todo
+  let xoff = 0;
+
   const wanderer = vehicle => {
     const vd = Vec.setMagnitude(wanderDistance)(vehicle.velocity);
     const vp = Vec.add(vehicle.position)(vd);
-    const theta = mapInterval([0, 1])([0, Math.PI * 2])(Math.random());
+    const theta = mapInterval([0, 1])([0, Math.PI * 2])(p.noise(xoff));
+    xoff += 0.05;
     const target = Vec.add(vp)(
       Vec2(wanderRadius * Math.cos(theta))(wanderRadius * Math.sin(theta))
     );
