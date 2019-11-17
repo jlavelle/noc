@@ -1,4 +1,4 @@
-import { innerWidthHeight } from "../util/misc";
+import { innerWidthHeight, mapInterval } from "../util/misc";
 import { Fn, Arr } from "@masaeedu/fp";
 import * as Vec from "../util/vector";
 import { positionUpdate, limitingBehavior } from "../util/mover";
@@ -15,6 +15,7 @@ export const sketch = p => {
   const maxForce = 0.1;
   const topSpeed = 4;
   const s = 5;
+  const arriveDist = 100;
 
   const vehicle = {
     position: Vec2(w / 2)(h / 2),
@@ -31,15 +32,20 @@ export const sketch = p => {
     acceleration: Vec.scale(1 / vehicle.mass)(Arr.fold(VecSum)(forces))
   });
 
-  const seek = vehicle => target => {
-    const desired = Vec.setMagnitude(topSpeed)(
-      Vec.subtract(target)(vehicle.position)
+  const arriver = vehicle => target => {
+    const desired = Vec.subtract(target)(vehicle.position);
+    const dist = Vec.magnitude(desired);
+    const m =
+      dist < arriveDist
+        ? mapInterval([0, arriveDist])([0, topSpeed])(dist)
+        : topSpeed;
+    return Vec.limit(maxForce)(
+      Vec.subtract(Vec.setMagnitude(m)(desired))(vehicle.velocity)
     );
-    return Vec.limit(maxForce)(Vec.subtract(desired)(vehicle.velocity));
   };
 
   const step = vehicle => target => {
-    const f = seek(vehicle)(target);
+    const f = arriver(vehicle)(target);
     return Fn.passthru(vehicle)([applyForces([f]), updatePos]);
   };
 
