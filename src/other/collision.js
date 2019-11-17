@@ -8,7 +8,7 @@ import {
   mapInterval
 } from "../util/misc";
 import * as Vec from "../util/vector";
-import * as Obj from "../util/fastObj";
+import Obj from "../util/fastObj";
 import { Arr, Fn } from "@masaeedu/fp";
 import {
   positionUpdate,

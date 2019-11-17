@@ -3,7 +3,7 @@ import Mealy from "../util/mealy";
 import { Fn, Arr } from "@masaeedu/fp";
 import * as Vec from "../util/vector";
 import { pipeC } from "../util/misc";
-import * as Obj from "../util/fastObj";
+import Obj from "../util/fastObj";
 
 const { Vec2, VecSum } = Vec;
 

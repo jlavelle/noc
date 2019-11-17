@@ -1,5 +1,5 @@
 import { Arr, IntSum, Fn, Maybe } from "@masaeedu/fp";
-import * as Obj from "./fastObj";
+import Obj from "./fastObj";
 import * as Vec from "./vector";
 
 const { Vec2 } = Vec;

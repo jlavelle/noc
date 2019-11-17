@@ -1,4 +1,4 @@
-import * as Obj from "../util/fastObj";
+import Obj from "../util/fastObj";
 import { randomGaussian, configureGaussian } from "../util/misc";
 import { add } from "../util/vector";
 

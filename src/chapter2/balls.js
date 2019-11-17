@@ -4,7 +4,7 @@ import { Fn, Arr } from "@masaeedu/fp";
 import * as Vec from "../util/vector";
 import { pipeC, circlesOverlap, circleRectOverlap } from "../util/misc";
 import { gravity, edgeRepel, dragForce, zones } from "../util/forces";
-import * as Obj from "../util/fastObj";
+import Obj from "../util/fastObj";
 const { Vec2, VecSum } = Vec;
 
 const behavior = s =>

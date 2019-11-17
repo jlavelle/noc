@@ -1,5 +1,7 @@
 import { IntSum } from "@masaeedu/fp";
-import { zipWith, map, fold, foldMap } from "./fastObj";
+import Obj from "./fastObj";
+
+const { zipWith, map, fold, foldMap } = Obj;
 
 const Vec2 = x => y => ({ x, y });
 const Vec3 = x => y => z => ({ x, y, z });

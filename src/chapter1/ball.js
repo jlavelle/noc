@@ -1,5 +1,4 @@
-import { Fn } from "@masaeedu/fp";
-import * as Obj from "../util/fastObj";
+import Obj from "../util/fastObj";
 import * as Vec from "../util/vector";
 
 const { Vec3 } = Vec;

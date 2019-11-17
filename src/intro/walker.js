@@ -1,5 +1,5 @@
 import { Arr, Fn } from "@masaeedu/fp";
-import * as Obj from "../util/fastObj";
+import Obj from "../util/fastObj";
 import {
   randomInt,
   weightedChoice,
@@ -20,7 +20,12 @@ const sketch = p => {
   };
 
   const moves = (() => {
-    const cardinal = [["n", 0, -1], ["s", 0, 1], ["e", 1, 0], ["w", -1, 0]];
+    const cardinal = [
+      ["n", 0, -1],
+      ["s", 0, 1],
+      ["e", 1, 0],
+      ["w", -1, 0]
+    ];
 
     const toPairs = ([n, dx, dy]) => [n, Vec2(dx)(dy)];
     const addc = x => y => Arr.map(i => x[i] + y[i])(Arr.range(3));

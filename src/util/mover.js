@@ -1,5 +1,5 @@
 import { Fn, Arr, Maybe } from "@masaeedu/fp";
-import * as Obj from "./fastObj";
+import Obj from "./fastObj";
 import * as Vec from "./vector";
 import Mealy from "./mealy";
 import { pipeC } from "./misc";
