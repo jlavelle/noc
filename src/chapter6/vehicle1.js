@@ -15,10 +15,10 @@ export const sketch = p => {
   p.setup = () => {
     p.createCanvas(w, h);
     p.background(0);
-    //p.frameRate(1);
+    //p.frameRate(5);
   };
 
-  const maxForce = 0.1;
+  const maxForce = 0.2;
   const topSpeed = 4;
   const s = 7;
   const arriveDist = 100;
@@ -79,7 +79,7 @@ export const sketch = p => {
     const dist = Vec.magnitude(desired);
     const nd = Maybe.fromMaybe(Vec2(0)(0))(
       asum(Maybe)([
-        avoidWalls(vehicle.position)(desired),
+        //avoidWalls(vehicle.position)(desired),
         arrive(dist)(desired),
         move(desired)
       ])
@@ -89,12 +89,37 @@ export const sketch = p => {
 
   // todo
   let xoff = 0;
+  let yoff = 0;
+
+  // TODO: Refactor this to pick allowed quadrants
+  const avoidWallsAngle = position => {
+    let interval = [0, Math.PI * 2];
+    if (position.x < wallInset) {
+      yoff += 0.05;
+      interval = [-Math.PI / 2, Math.PI / 2];
+    } else if (position.x > w - wallInset) {
+      yoff += 0.05;
+      interval = [Math.PI / 2, (3 * Math.PI) / 2];
+    }
+
+    if (position.y < wallInset) {
+      yoff += 0.05;
+      interval = [0, Math.min(Math.PI, interval[1])];
+    } else if (position.y > h - wallInset) {
+      yoff += 0.05;
+      interval = [0, -Math.PI]; // TODO: account for the x angle
+    }
+    xoff += 0.01;
+    const r = mapInterval([0, 1])(interval)(p.noise(xoff, yoff));
+    //console.log(interval, r);
+    return r;
+  };
 
   const wanderer = vehicle => {
     const vd = Vec.setMagnitude(wanderDistance)(vehicle.velocity);
     const vp = Vec.add(vehicle.position)(vd);
-    const theta = mapInterval([0, 1])([0, Math.PI * 2])(p.noise(xoff));
-    xoff += 0.05;
+    const theta = avoidWallsAngle(vehicle.position);
+    // const theta = avoidWallsAngle(vehicle.position)(Math.PI);
     const target = Vec.add(vp)(
       Vec2(wanderRadius * Math.cos(theta))(wanderRadius * Math.sin(theta))
     );
