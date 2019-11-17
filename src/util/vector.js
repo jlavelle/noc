@@ -16,7 +16,11 @@ const magnitudeSq = v => foldMap(IntSum)(x => x * x)(v);
 
 const magnitude = v => Math.sqrt(magnitudeSq(v));
 
-const setMagnitude = to => v => scale(to / magnitude(v))(v);
+// Ignores vectors with magnitude 0
+const setMagnitude = to => v => {
+  const m = magnitudeSq(v);
+  return m === 0 ? v : scale(to / Math.sqrt(m))(v);
+};
 
 const limit = to => v => {
   const mag = magnitude(v);
@@ -24,8 +28,8 @@ const limit = to => v => {
 };
 
 const normalize = v => {
-  const m = magnitude(v);
-  return scale(1 / (m === 0 ? 1 : m))(v);
+  const m = magnitudeSq(v);
+  return scale(1 / (m === 0 ? 1 : Math.sqrt(m)))(v);
 };
 
 const distanceSq = v1 => v2 => magnitudeSq(subtract(v2)(v1));

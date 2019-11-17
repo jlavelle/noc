@@ -124,6 +124,7 @@ export {
   bouncingBehavior,
   boundingBehavior,
   limitingBehavior,
+  wrappingBehavior,
   positionUpdate,
   ellipseRender
 };
