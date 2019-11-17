@@ -1,11 +1,13 @@
-import { innerWidthHeight, mapInterval } from "../util/misc";
+import { innerWidthHeight, mapInterval, asum } from "../util/misc";
 import { Fn, Arr } from "@masaeedu/fp";
+import Obj from "../util/fastObj";
 import * as Vec from "../util/vector";
 import {
   positionUpdate,
   limitingBehavior,
   wrappingBehavior
 } from "../util/mover";
+import { Maybe } from "@masaeedu/fp/dist/instances";
 const { Vec2, VecSum } = Vec;
 
 export const sketch = p => {
@@ -18,10 +20,11 @@ export const sketch = p => {
 
   const maxForce = 0.1;
   const topSpeed = 4;
-  const s = 5;
+  const s = 7;
   const arriveDist = 100;
-  const wanderRadius = 20;
-  const wanderDistance = 75;
+  const wanderRadius = 25;
+  const wanderDistance = 100;
+  const wallInset = 200;
 
   const vehicle = {
     position: Vec2(w / 2)(h / 2),
@@ -43,16 +46,45 @@ export const sketch = p => {
     acceleration: Vec.scale(1 / vehicle.mass)(Arr.fold(VecSum)(forces))
   });
 
+  // TODO: Need a lazy Alt for Maybe and a way to lazily share things like
+  // the magnitude of the desired vector between different behaviors
+
+  // :: Number -> Vec2 Number Number -> Maybe (Vec2 Number Number)
+  const arrive = dist => dir =>
+    dist < arriveDist
+      ? Maybe.Just(
+          Vec.setMagnitude(mapInterval([0, arriveDist])([0, topSpeed])(dist))(
+            dir
+          )
+        )
+      : Maybe.Nothing;
+
+  const move = dir => Maybe.Just(Vec.setMagnitude(topSpeed)(dir));
+
+  const avoid = bool => prop => dir => {
+    const d = move(dir);
+    return bool ? Maybe.map(Obj.over(prop)(x => x * -1))(d) : Maybe.Nothing;
+  };
+
+  const avoidWalls = position => dir =>
+    asum(Maybe)([
+      avoid(position.x < wallInset)("x")(dir),
+      avoid(position.x > w - wallInset)("x")(dir),
+      avoid(position.y < wallInset)("y")(dir),
+      avoid(position.y > h - wallInset)("y")(dir)
+    ]);
+
   const arriver = vehicle => target => {
     const desired = Vec.subtract(target)(vehicle.position);
     const dist = Vec.magnitude(desired);
-    const m =
-      dist < arriveDist
-        ? mapInterval([0, arriveDist])([0, topSpeed])(dist)
-        : topSpeed;
-    return Vec.limit(maxForce)(
-      Vec.subtract(Vec.setMagnitude(m)(desired))(vehicle.velocity)
+    const nd = Maybe.fromMaybe(Vec2(0)(0))(
+      asum(Maybe)([
+        avoidWalls(vehicle.position)(desired),
+        arrive(dist)(desired),
+        move(desired)
+      ])
     );
+    return Vec.limit(maxForce)(Vec.subtract(nd)(vehicle.velocity));
   };
 
   // todo
@@ -75,7 +107,7 @@ export const sketch = p => {
   };
 
   const render = wanderTarget => ({ position, velocity }) => {
-    p.stroke(255);
+    p.stroke(100);
     p.line(
       position.x,
       position.y,
@@ -88,7 +120,8 @@ export const sketch = p => {
       wanderTarget.target.x,
       wanderTarget.target.y
     );
-    p.ellipse(wanderTarget.target.x, wanderTarget.target.y, 5, 5);
+    p.fill("red");
+    p.ellipse(wanderTarget.target.x, wanderTarget.target.y, 6, 6);
     p.noFill();
     p.ellipse(
       wanderTarget.position.x,
