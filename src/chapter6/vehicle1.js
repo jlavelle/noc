@@ -20,7 +20,7 @@ export const sketch = p => {
   const topSpeed = 4;
   const s = 5;
   const arriveDist = 100;
-  const wanderRadius = 10;
+  const wanderRadius = 20;
   const wanderDistance = 50;
 
   const vehicle = {
@@ -62,15 +62,37 @@ export const sketch = p => {
     const target = Vec.add(vp)(
       Vec2(wanderRadius * Math.cos(theta))(wanderRadius * Math.sin(theta))
     );
-    return arriver(vehicle)(target);
+    return [{ position: vp, target }, arriver(vehicle)(target)];
   };
 
   const step = vehicle => target => {
-    const f = wanderer(vehicle);
-    return Fn.passthru(vehicle)([applyForces([f]), updatePos]);
+    const [t, f] = wanderer(vehicle);
+    return [t, Fn.passthru(vehicle)([applyForces([f]), updatePos])];
   };
 
-  const render = ({ position, velocity }) => {
+  const render = wanderTarget => ({ position, velocity }) => {
+    p.stroke(255);
+    p.line(
+      position.x,
+      position.y,
+      wanderTarget.position.x,
+      wanderTarget.position.y
+    );
+    p.line(
+      wanderTarget.position.x,
+      wanderTarget.position.y,
+      wanderTarget.target.x,
+      wanderTarget.target.y
+    );
+    p.ellipse(wanderTarget.target.x, wanderTarget.target.y, 5, 5);
+    p.noFill();
+    p.ellipse(
+      wanderTarget.position.x,
+      wanderTarget.position.y,
+      wanderRadius * 2,
+      wanderRadius * 2
+    );
+    p.fill(255);
     p.push();
     p.translate(position.x, position.y);
     p.rotate(Vec.heading2D(velocity) + Math.PI / 2);
@@ -80,13 +102,15 @@ export const sketch = p => {
     p.vertex(s, s * 2);
     p.endShape();
     p.pop();
+    p.push();
   };
 
   let v = vehicle;
+  let t = Vec2(0)(0);
 
   p.draw = () => {
     p.background(0);
-    v = step(v)({ x: p.mouseX, y: p.mouseY });
-    render(v);
+    [t, v] = step(v)({ x: p.mouseX, y: p.mouseY });
+    render(t)(v);
   };
 };
