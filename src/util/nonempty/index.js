@@ -6,11 +6,17 @@ import {
   Foldable,
   Traversable,
   Chain,
-  Fn,
+  ClassDef,
   Arr
 } from "@masaeedu/fp";
 
-const classes = [Functor, Apply, Chain, Foldable, Traversable];
-const augmented = Fn.passthru(NonEmpty)(Arr.map(implement)(classes));
+const classes = Arr.fold(ClassDef)([
+  Functor,
+  Apply,
+  Chain,
+  Foldable,
+  Traversable
+]);
+const augmented = implement(classes)(NonEmpty);
 
 export default augmented;

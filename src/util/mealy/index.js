@@ -1,8 +1,8 @@
-import { implement, Functor, Apply, Fn, Arr } from "@masaeedu/fp";
+import { implement, Functor, Apply, Arr, ClassDef } from "@masaeedu/fp";
 import Profunctor from "../profunctor";
 import Mealy from "./def";
 
-const classes = [Functor, Apply, Profunctor];
-const augmented = Fn.passthru(Mealy)(Arr.map(implement)(classes));
+const classes = Arr.fold(ClassDef)([Functor, Apply, Profunctor]);
+const augmented = implement(classes)(Mealy);
 
 export default augmented;

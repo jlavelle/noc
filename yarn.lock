@@ -764,6 +764,16 @@
     "@masaeedu/infix" "^1.2.0"
     natch "^1.1.1"
 
+"@masaeedu/fp@https://github.com/jlavelle/fp#perf2":
+  version "10.1.1"
+  resolved "https://github.com/jlavelle/fp#79715298dca1388d605436de6925e4e48b9fc057"
+  dependencies:
+    "@babel/polyfill" "^7.0.0-beta.52"
+    "@masaeedu/adt" "^1.0.3"
+    "@masaeedu/do" "^0.0.1"
+    "@masaeedu/infix" "^1.2.0"
+    natch "^1.1.1"
+
 "@masaeedu/infix@^1.2.0":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@masaeedu/infix/-/infix-1.2.1.tgz#423145ad6020355a87c9d7ce28dd8a8e93945621"

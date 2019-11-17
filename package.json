@@ -19,7 +19,7 @@
   "dependencies": {
     "@masaeedu/adt": "^1.1.1",
     "@masaeedu/do": "^0.2.2",
-    "@masaeedu/fp": "^10.1.1",
+    "@masaeedu/fp": "https://github.com/jlavelle/fp#perf2",
     "p5": "^0.9.0"
   },
   "ava": {

@@ -36,7 +36,10 @@ const distribution = Fn.pipe([weights(Arr), cumulative]);
 
 // :: [(a, b)] => ([a], [b])
 const unzip = Arr.foldr(([a, b]) => ([as, bs]) => {
-  return [[a, ...as], [b, ...bs]];
+  return [
+    [a, ...as],
+    [b, ...bs]
+  ];
 })([[], []]);
 
 // Create a distribution based on a list of weights tupled with outcomes,
@@ -275,6 +278,9 @@ const innerWidthHeight = inset => {
   return [window.innerWidth - inset, window.innerHeight - inset];
 };
 
+// Alternative f -> [f a] -> f a
+const asum = A => Arr.foldl(A.alt)(A.zero);
+
 export {
   randomInt,
   randomR,
@@ -313,5 +319,6 @@ export {
   degrees,
   keyListener,
   innerWidthHeight,
-  rectOverlap
+  rectOverlap,
+  asum
 };
