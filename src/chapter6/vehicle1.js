@@ -18,7 +18,7 @@ export const sketch = p => {
     //p.frameRate(5);
   };
 
-  const maxForce = 0.2;
+  const maxForce = 0.1;
   const topSpeed = 4;
   const s = 7;
   const arriveDist = 100;
@@ -88,8 +88,8 @@ export const sketch = p => {
   };
 
   // todo
-  let xoff = 0;
-  let yoff = 0;
+  let xoff = Math.floor(Math.random() * 10000);
+  let yoff = Math.floor(Math.random() * 10000);
 
   // TODO: Refactor this to pick allowed quadrants
   const avoidWallsAngle = position => {
@@ -109,9 +109,10 @@ export const sketch = p => {
       yoff += 0.05;
       interval = [0, -Math.PI]; // TODO: account for the x angle
     }
-    xoff += 0.01;
-    const r = mapInterval([0, 1])(interval)(p.noise(xoff, yoff));
-    //console.log(interval, r);
+    xoff += 0.1;
+    yoff += 0.001;
+    const noise = p.noise(xoff, yoff);
+    const r = mapInterval([0, 1])(interval)(noise);
     return r;
   };
 
