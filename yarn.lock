@@ -753,17 +753,6 @@
   resolved "https://registry.yarnpkg.com/@masaeedu/do/-/do-0.2.2.tgz#444b4640d2b5b94323e9335ae0f9e2051783ca4d"
   integrity sha512-fYWsg9uhk5Y4gcx4OeO3sQHULJd6HnMkt52e4qE7qccszd35Yw6O7voRJu1JaddWjQQD7x6fVOorKS4aS60nYA==
 
-"@masaeedu/fp@^10.1.1":
-  version "10.1.1"
-  resolved "https://registry.yarnpkg.com/@masaeedu/fp/-/fp-10.1.1.tgz#11a1860e10ce9d11ef620c7eda712ef6f27dbc3c"
-  integrity sha512-HOxq9WKNJks+G0MJOfpbo1A9EnXLeUxUyP3SV0Qmb+I6iyfXwluuXria/zu5RZQHXaTc580Cykj1TKcOFEkGew==
-  dependencies:
-    "@babel/polyfill" "^7.0.0-beta.52"
-    "@masaeedu/adt" "^1.0.3"
-    "@masaeedu/do" "^0.0.1"
-    "@masaeedu/infix" "^1.2.0"
-    natch "^1.1.1"
-
 "@masaeedu/fp@https://github.com/jlavelle/fp#perf2":
   version "10.1.1"
   resolved "https://github.com/jlavelle/fp#79715298dca1388d605436de6925e4e48b9fc057"
@@ -3484,9 +3473,9 @@ inherits@2.0.3:
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
 ini@^1.3.4, ini@~1.3.0:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
-  integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
+  integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
 invariant@^2.2.2:
   version "2.2.4"
