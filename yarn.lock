@@ -753,17 +753,6 @@
   resolved "https://registry.yarnpkg.com/@masaeedu/do/-/do-0.2.2.tgz#444b4640d2b5b94323e9335ae0f9e2051783ca4d"
   integrity sha512-fYWsg9uhk5Y4gcx4OeO3sQHULJd6HnMkt52e4qE7qccszd35Yw6O7voRJu1JaddWjQQD7x6fVOorKS4aS60nYA==
 
-"@masaeedu/fp@^10.1.1":
-  version "10.1.1"
-  resolved "https://registry.yarnpkg.com/@masaeedu/fp/-/fp-10.1.1.tgz#11a1860e10ce9d11ef620c7eda712ef6f27dbc3c"
-  integrity sha512-HOxq9WKNJks+G0MJOfpbo1A9EnXLeUxUyP3SV0Qmb+I6iyfXwluuXria/zu5RZQHXaTc580Cykj1TKcOFEkGew==
-  dependencies:
-    "@babel/polyfill" "^7.0.0-beta.52"
-    "@masaeedu/adt" "^1.0.3"
-    "@masaeedu/do" "^0.0.1"
-    "@masaeedu/infix" "^1.2.0"
-    natch "^1.1.1"
-
 "@masaeedu/fp@https://github.com/jlavelle/fp#perf2":
   version "10.1.1"
   resolved "https://github.com/jlavelle/fp#79715298dca1388d605436de6925e4e48b9fc057"
@@ -6087,9 +6076,9 @@ serialize-error@^2.1.0:
   integrity sha1-ULZ51WNc34Rme9yOWa9OW4HV9go=
 
 serialize-to-js@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/serialize-to-js/-/serialize-to-js-3.0.0.tgz#1fd8736744819a4df29dc85e9d04a44a4984edc3"
-  integrity sha512-WdGgi0jGnWCQXph2p3vkxceDnTfvfyXfYxherQMRcZjSaJzMQdMBAW6i0nojsBKIZ3fFOztZKKVbbm05VbIdRA==
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/serialize-to-js/-/serialize-to-js-3.0.1.tgz#7bece9cb910c5ee1433f56500db4a5303bca6a02"
+  integrity sha512-TokHD6rY0yQxMmZCjeL8Oj+XuQK6uEx8JnBjt7PuqwWa2qY79Wb/KyhEDduTUC8Gl3S7c40jefWve7f5t4L8Lw==
 
 serve-static@^1.12.4:
   version "1.14.1"
