@@ -753,17 +753,6 @@
   resolved "https://registry.yarnpkg.com/@masaeedu/do/-/do-0.2.2.tgz#444b4640d2b5b94323e9335ae0f9e2051783ca4d"
   integrity sha512-fYWsg9uhk5Y4gcx4OeO3sQHULJd6HnMkt52e4qE7qccszd35Yw6O7voRJu1JaddWjQQD7x6fVOorKS4aS60nYA==
 
-"@masaeedu/fp@^10.1.1":
-  version "10.1.1"
-  resolved "https://registry.yarnpkg.com/@masaeedu/fp/-/fp-10.1.1.tgz#11a1860e10ce9d11ef620c7eda712ef6f27dbc3c"
-  integrity sha512-HOxq9WKNJks+G0MJOfpbo1A9EnXLeUxUyP3SV0Qmb+I6iyfXwluuXria/zu5RZQHXaTc580Cykj1TKcOFEkGew==
-  dependencies:
-    "@babel/polyfill" "^7.0.0-beta.52"
-    "@masaeedu/adt" "^1.0.3"
-    "@masaeedu/do" "^0.0.1"
-    "@masaeedu/infix" "^1.2.0"
-    natch "^1.1.1"
-
 "@masaeedu/fp@https://github.com/jlavelle/fp#perf2":
   version "10.1.1"
   resolved "https://github.com/jlavelle/fp#79715298dca1388d605436de6925e4e48b9fc057"
@@ -919,9 +908,9 @@ acorn-walk@^6.0.1:
   integrity sha512-7evsyfH1cLOCdAzZAd43Cic04yKydNx0cF+7tiA19p1XnLLPU4dpCQOqpjqwokFe//vS0QqfqqjCS2JkiIs0cA==
 
 acorn@^5.0.0:
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
-  integrity sha512-T/zvzYRfbVojPWahDsE5evJdHb3oJoQfFbsrKM7w5Zcs++Tr257tia3BmMP8XYVjp1S9RZXQMh7gao96BlqZOw==
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.1, acorn@^6.0.4:
   version "6.3.0"
